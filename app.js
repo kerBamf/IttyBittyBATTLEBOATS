@@ -20,7 +20,7 @@ class TileStats {
     }
 }
 
-//Building Boat Arrays
+//Building Boat Arrays. Can be latered modified for stretch feature of custome map size.
 function buildTileArray() {
     for(let i = 0; i < enRows.length; i++) {
         let newRowArray = [];
@@ -35,7 +35,7 @@ function buildTileArray() {
 
 buildTileArray()
 
-//Functions adding event listeners to each of the tiles. Tiles can return coordinates based on 'i' and 'j.'
+//
 function playTileListenerApplier() {
 
     for(let i = 0; i < playRows.length; i++) {
@@ -48,13 +48,21 @@ function playTileListenerApplier() {
     }
 }
 
+// New Listener with hit/miss logic, deriving coordinates from iterators. This will allow listeners to be accurately applied regardless of grid size, and will match associated boat-stat array(s) since they both use the same iterators.
 function enTileListenerApplier() {
 
     for(let i = 0; i < enRows.length; i++) {
         let tiles = enRows[i].children;
         for (let j = 0; j < tiles.length; j++) {
             tiles[j].addEventListener('click', function() {
-                
+               let boat = enGridArray[i][j];
+               console.log(`Shots fired at ${i}, ${j}`);
+               if (boat.boatPresent == true){
+                boat.health -= 1;
+                console.log(enGridArray[i][j].health)
+               } else {
+                console.log('Miss')
+               }
             })
         }
     }
