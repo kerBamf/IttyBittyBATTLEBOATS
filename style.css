@@ -1,11 +1,49 @@
-header {
+body {
+
+}
+
+h1 {
+}
+
+h3 {
+}
+
+.label {
+    display: block;
     text-align: center;
 }
 
+.board {
+    padding: 0 0 0 80px;
+}
+
+.gridAndLabel {
+    display: inline-block;
+}
+
+.grid {
+    display: inline-block;
+    margin: 30px 50px 0 50px;
+}
+
+#playGrid {
+
+}
+
+#EnGrid {
+
+}
+
 .row {
-    display: flex;
+
 }
 
 .tile {
+    display: inline-block;
     background: aqua;
+    margin: 0;
+    width: 60px;
+    height: 60px;
+    border: 1px white;
+    border-style: groove;
 }

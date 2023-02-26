@@ -6,87 +6,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Itty Bitty BATTLE BOATS</title>
     <link rel="stylesheet" href="./style.css"></link>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
     <script src="./app.js" defer></script>
 </head>
-<header>
-    <h1>Itty Bitty BATTLE BOATS</h1>
-</header>
 <body>
-    <div class='grid' id="playGrid">
-        <div class="row" id="playRow1
-        ">
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
+    <h1>Itty Bitty BATTLE BOATS</h1>
+    <div class="board">
+        <div class="gridAndLabel">
+            <h3 class="label">Player Grid</h3>
+            <div class='grid' id="playGrid">
+                <div class="row" id="playRow1">
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                </div>
+                <div class='row' id="playRow2">
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                </div>
+                <div class="row" id="playRow3">
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                </div>
+                <div class="row" id="playRow4">
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                </div>
+                <div class="row" id="playRow5">
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                </div>
+            </div>
         </div>
-        <div class='row' id="playRow2">
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-        </div>
-        <div class="row" class="playRow3">
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-        </div>
-        <div class="row" id="playRow4">
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-        </div>
-        <div class="row" id="playRow5">
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-        </div>
-    </div>
-    <div class='grid' id="EnGrid">
-        <div class="row" id="EnRow1">
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-        </div>
-        <div class="row" id="EnRow2">
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-        </div>
-        <div class="row"id="EnRow3">
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-        </div>
-        <div class="row" id="EnRow4">
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-        </div>
-        <div class="row" id="EnRow5">
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
-            <p class="tile"></p>
+        <div class="gridAndLabel">
+            <h3 class="label">Computer Grid</h3>
+            <div class='grid' id="EnGrid">
+                <div class="row" id="EnRow1">
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                </div>
+                <div class="row" id="EnRow2">
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                </div>
+                <div class="row"id="EnRow3">
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                </div>
+                <div class="row" id="EnRow4">
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                </div>
+                <div class="row" id="EnRow5">
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                    <p class="tile"></p>
+                </div>
+            </div>
         </div>
     </div>
 </body>
