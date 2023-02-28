@@ -37,21 +37,21 @@ function buildTileArray() {
 
 buildTileArray()
 
-//
-function playTileListenerApplier() {
+//Player Tile Listeners
+function playTileListeners() {
 
     for(let i = 0; i < playRows.length; i++) {
-        let tiles = playRows[i].children;
+        let tileArray = playRows[i].children;
         for (let j = 0; j < tiles.length; j++) {
-            tiles[j].addEventListener('click', function() {
+            tileArray[j].addEventListener('click', function() {
                 
             })
         }
     }
 }
 
-// New Listener with hit/miss logic, deriving coordinates from iterators. This will allow listeners to be accurately applied regardless of grid size, and will match associated boat-stat array(s) since they both use the same iterators.
-function enTileListenerApplier() {
+// New Listener currently populated with hit/miss logic, deriving coordinates from iterators. This will allow listeners to be accurately applied regardless of grid size, and will match associated boat-stat array(s) since they both use the same iterators. Later version will execute different functions based on "game-state" variables yet to be coded.
+function enTileListeners() {
 
     for(let i = 0; i < enRows.length; i++) {
         let tiles = enRows[i].children;
@@ -70,5 +70,5 @@ function enTileListenerApplier() {
     }
 }
 
-enTileListenerApplier();
-playTileListenerApplier()
+playTileListeners()
+enTileListeners()
