@@ -9,6 +9,7 @@ const enRows = document.querySelectorAll('.enRow')
 const playRows = document.querySelectorAll('.playRow')
 let enGridArray = [];
 let playGridArray = [];
+let computerBrainArray = [];
 
 //Building Class for tiles. Each tile will have boat stats, but boat presence will be toggled true or false at the beginning of the game
 
@@ -30,6 +31,7 @@ function buildTileArray() {
         }
         enGridArray.push(newRowArray)
         playGridArray.push(newRowArray)
+        computerBrainArray.push(newRowArray)
     }
 }
 
