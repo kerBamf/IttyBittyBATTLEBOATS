@@ -10,6 +10,7 @@ let enGridArray = [];
 let playGridArray = [];
 let computerBrainArray = [];
 let playerBoatCount = 0;
+let computerBoatCount = 0;
 
 //Game Reset Function
 function gameReset() {
@@ -21,6 +22,12 @@ function gameReset() {
     playGridArray = [];
     computerBrainArray = [];
     playerBoatCount = 0;
+    computerBoatCount = 0;
+}
+
+//Random Number Generator
+function randNumGen(min, max) {
+    return Math.floor(math.random() * (max-min) + min)
 }
 
 //Building Class for tiles. Each tile will have boat stats, but boat presence will be toggled true or false at the beginning of the game
@@ -103,6 +110,7 @@ function playerOffensive(row, tile) {
     console.log(`Shots fired at ${row}, ${tile}`);
     if (boat.boatPresent == true){
         boat.health -= 1;
+        console.log('Enemy boat hit!');
         console.log(enGridArray[row][tile].health)
     } else {
         console.log('Miss')
@@ -125,6 +133,23 @@ function playGame() {
     selectPhase = true;
 }
 
-//"Select Phase" Logic
+//Computer Boat Selection Logic
+
+function selectEnemyBoats() {
+    while (computerBoatCount < 5) {
+        computerBoatSelector();
+    }
+}
+
+function computerBoatSelector() {
+    let randomRow = enGridArray[randNumGen(0, (enGridArray.length-1))]
+    let randomTile = randomRow[randNumGen(0, (randomRow.length-1))]
+    if (randomTile.boatPresent = false) {
+        randomTile.boatPresent = true;
+        computerBoatCount = computerBoatCount + 1;
+    } else {
+        computerBoatSelector();
+    }
+}
 
 
