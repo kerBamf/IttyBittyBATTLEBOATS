@@ -7,7 +7,8 @@
 const allTiles = document.querySelectorAll('.tile')
 const enRows = document.querySelectorAll('.enRow')
 const playRows = document.querySelectorAll('.playRow')
-let selectPhase = true;
+const startGameButton = document.querySelector('#startGame')
+let selectPhase = false;
 let playerTurn = true;
 let enGridArray = [];
 let playGridArray = [];
@@ -69,6 +70,7 @@ function selectBoatPosition(row, tile) {
 }
 
 
+
 // New Listener currently populated with hit/miss logic, deriving coordinates from iterators. This will allow listeners to be accurately applied regardless of grid size, and will match associated boat-stat array(s) since they both use the same iterators. Later version will execute different functions based on "game-state" variables yet to be coded.
 function enTileListeners() {
 
@@ -85,10 +87,7 @@ function enTileListeners() {
     }
 }
 
-playTileListeners()
-enTileListeners()
-
-//Function defining enemy tile behavior during player turn
+//Functions defining enemy tile behavior during player turn
 function playerOffensive(row, tile) {
     let boat = enGridArray[row][tile];
     console.log(`Shots fired at ${row}, ${tile}`);
@@ -99,3 +98,8 @@ function playerOffensive(row, tile) {
         console.log('Miss')
     }
 }
+
+playTileListeners()
+enTileListeners()
+
+
