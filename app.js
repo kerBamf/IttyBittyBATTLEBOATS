@@ -1,30 +1,33 @@
 //Global Variables
-const baseHTML = document.querySelector('body').innerHTML
-const allTiles = document.querySelectorAll('.tile')
-const enRows = document.querySelectorAll('.enRow')
-const playRows = document.querySelectorAll('.playRow')
-const startGameButton = document.querySelector('#startGame')
+const bodySelector = document.querySelector('body')
+const baseHTML = bodySelector.innerHTML;
+let enRows = document.querySelectorAll('.enRow')
+let playRows = document.querySelectorAll('.playRow')
+let startGameButton = document.querySelector('#startGame')
 let selectPhase = false;
 let playerTurn = false;
 let enGridArray = [];
 let playGridArray = [];
 let computerBrainArray = [];
 let playerBoatCount = 0;
-let computerBoatCount = 0;
+let computerBoatCount = 5;
 let computerMode = 'Hunter';
 let sightedBoat = null;
 
-//Game Reset Function
+//Game Reset Function. Listeners need to be reset after HTML reset
 function gameReset() {
-    let currentHTML = document.querySelector('body')
-    currentHTML = baseHTML
+    document.querySelector('body').innerHTML = baseHTML
+    startGameButton = document.querySelector('#startGame')
+    addStartButtonListener()
+    enRows = document.querySelectorAll('.enRow')
+    playRows = document.querySelectorAll('.playRow')
     selectPhase = false;
     playerTurn = false;
-    enGridArray = [];
-    playGridArray = [];
-    computerBrainArray = [];
     playerBoatCount = 0;
-    computerBoatCount = 0;
+    computerBoatCount = 5;
+    computerMode = 'Hunter';
+    sightedBoat = null;
+    console.log('Game has been reset')
 }
 
 //Random Number Generator
@@ -46,6 +49,9 @@ class TileStats {
 
 //Building Boat Arrays. Can be latered modified for stretch feature of custome map size.
 function buildTileArray() {
+    enGridArray = [];
+    playGridArray = [];
+    computerBrainArray = [];
     for(let i = 0; i < enRows.length; i++) {
         let newRowArray = [];
         for(let j = 0; j < enRows[i].children.length; j++) {
@@ -74,6 +80,7 @@ function playTileListeners() {
             })
         }
     }
+    console.log('Added Player Listeners')
 }
 
 
@@ -100,7 +107,6 @@ function selectBoatPosition(row, tile) {
 
 // New Listener currently populated with hit/miss logic, deriving coordinates from iterators. This will allow listeners to be accurately applied regardless of grid size, and will match associated boat-stat array(s) since they both use the same iterators. Later version will execute different functions based on "game-state" variables yet to be coded.
 function enTileListeners() {
-
     for(let i = 0; i < enRows.length; i++) {
         let tiles = enRows[i].children;
         for (let j = 0; j < tiles.length; j++) {
@@ -112,6 +118,7 @@ function enTileListeners() {
             })
         }
     }
+    console.log('Adding Enemy Listeners')
 }
 
 //Functions defining enemy tile behavior during player turn
@@ -121,18 +128,20 @@ function playerOffensive(row, tile) {
     if (boat.boatPresent == true && boat.health > 0){
         boat.health -= 1;
         console.log(`Enemy boat hit at ${boat.coordinates}! It has ${boat.health} hitpoints left!`);
-        playerTurn = false;
     } else if (boat.boatPresent == true && boat.health <= 0) {
         console.log("You've already sunk that boat!")
     } else {
         console.log('Miss')
-        playerTurn = false;
     }
-    hunterKillerLogic();
+    playerTurn = false;
+    checkGameOver()
+    if (playerBoatCount > 0) {
+        hunterKillerLogic();
+    }
 }
 
-playTileListeners()
-enTileListeners()
+// playTileListeners()
+// enTileListeners()
 
 //Computer Boat Selection Logic
 
@@ -156,7 +165,7 @@ function computerBoatSelector() {
 //Computer Hunter-Killer Logic
 
 function hunterKillerLogic() {
-    if (computerMode == 'Hunter') {
+    if (computerMode == 'Hunter' && playerBoatCount > 0) {
         let randomRow = playGridArray[randNumGen(0, (playGridArray.length))];
         let randomTile = randomRow[randNumGen(0, (randomRow.length))]
         console.log('Hunting');
@@ -173,7 +182,7 @@ function hunterKillerLogic() {
             sightedBoat = randomTile;
             console.log(`The computer found your boat at ${sightedBoat.coordinates}!`)
         }
-    } else if (computerMode == 'Killer') {
+    } else if (computerMode == 'Killer' && playerBoatCount > 0) {
         console.log(`The computer is firing on your boat at ${sightedBoat.coordinates}!`)
         sightedBoat.health -= 1;
         if (sightedBoat.health <= 0) {
@@ -184,27 +193,46 @@ function hunterKillerLogic() {
             computerMode = 'Hunter'
         }
     }
-    //Check game state
+    checkGameOver()
     playerTurn = true;
+}
+
+
+
+//Game over Logic
+function checkGameOver() {
+    if (playerBoatCount == 0) {
+        let playerDecision = confirm('You were deafeated by the enemy fleet! Would you like to play again?');
+        if (playerDecision == true) {
+            gameReset()
+        }
+    }
+     else if (computerBoatCount == 0) {
+        let playerDecision = confirm('You defeated the enemy! Would you like to play again?');
+        if (playerDecision == true) {
+            gameReset()
+        }
+    }
 }
 
 
 
 
 
-
-
-
-
 //"Start Game" Logic
+function addStartButtonListener() {
+    startGameButton.addEventListener('click', function () {
+        startGame();
+    });
+}
 
-startGameButton.addEventListener('click', function () {
-    playGame();
-});
+addStartButtonListener()
 
-function playGame() {
+function startGame() {
     console.log('Game starting')
     startGameButton.remove();
     buildTileArray();
+    playTileListeners()
+    enTileListeners()
     selectPhase = true;
 }
