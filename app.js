@@ -161,7 +161,7 @@ function hunterKillerLogic() {
         let randomTile = randomRow[randNumGen(0, (randomRow.length))]
         console.log('Hunting');
 
-        if (randomTile.boatPresent == false && randomTile.tileChecked == true) {
+        if (randomTile.tileChecked == true) {
             hunterKillerLogic()
         } else if (randomTile.boatPresent == false && randomTile.tileChecked == false) {
             randomTile.tileChecked = true;
@@ -175,9 +175,10 @@ function hunterKillerLogic() {
         }
     } else if (computerMode == 'Killer') {
         console.log(`The computer is firing on your boat at ${sightedBoat.coordinates}!`)
-        sightedBoat.health = sightedBoat.health - 1
+        sightedBoat.health -= 1;
         if (sightedBoat.health <= 0) {
             console.log(`The computer sank your boat at ${sightedBoat.coordinates}!`)
+            playerBoatCount -= 1;
             sightedBoat.tileChecked = true;
             sightedBoat = null;
             computerMode = 'Hunter'
