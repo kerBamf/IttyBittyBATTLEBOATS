@@ -1,5 +1,5 @@
 //Global Variables
-const bodySelector = document.querySelector('body')
+const bodySelector = document.querySelector('.board')
 const baseHTML = bodySelector.innerHTML;
 let enRows = document.querySelectorAll('.enRow')
 let playRows = document.querySelectorAll('.playRow')
@@ -16,7 +16,8 @@ let sightedBoat = null;
 
 //Game Reset Function. Listeners need to be reset after HTML reset
 function gameReset() {
-    document.querySelector('body').innerHTML = baseHTML
+    document.querySelector('.board').innerHTML = baseHTML
+    recreateStartButton()
     startGameButton = document.querySelector('#startGame')
     addStartButtonListener()
     enRows = document.querySelectorAll('.enRow')
@@ -224,6 +225,13 @@ function addStartButtonListener() {
     startGameButton.addEventListener('click', function () {
         startGame();
     });
+}
+
+function recreateStartButton() {
+    let newButton = document.createElement('button')
+    newButton.id = 'startGame'
+    newButton.innerText = 'Start Game'
+    document.querySelector('body').appendChild(newButton)
 }
 
 addStartButtonListener()
