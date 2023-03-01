@@ -11,6 +11,8 @@ let playGridArray = [];
 let computerBrainArray = [];
 let playerBoatCount = 0;
 let computerBoatCount = 0;
+let computerMode = 'Hunter';
+let sightedBoat = null;
 
 //Game Reset Function
 function gameReset() {
@@ -27,7 +29,7 @@ function gameReset() {
 
 //Random Number Generator
 function randNumGen(min, max) {
-    return Math.floor(math.random() * (max-min) + min)
+    return Math.floor(Math.random() * ((max-min) + min))
 }
 
 //Building Class for tiles. Each tile will have boat stats, but boat presence will be toggled true or false at the beginning of the game
@@ -38,6 +40,7 @@ class TileStats {
         this.health = 3;
         this.sighted = false;
         this.tileChecked = false;
+        this.coordinates = null;
     }
 }
 
@@ -47,6 +50,7 @@ function buildTileArray() {
         let newRowArray = [];
         for(let j = 0; j < enRows[i].children.length; j++) {
              let newTile = new TileStats()
+             newTile.coordinates = `${i}, ${j}`
             newRowArray.push(newTile)
         }
         enGridArray.push(newRowArray)
@@ -76,12 +80,18 @@ function playTileListeners() {
 //Player Tile Logic
 
 function selectBoatPosition(row, tile) {
-    playGridArray[row][tile].boatPresent = true;
-    playRows[row].children[tile].style.backgroundColor = "grey";
-    playerBoatCount = playerBoatCount + 1;
-    console.log(playerBoatCount);
-    if (playerBoatCount == 5) {
-        selectPhase = false
+    let boatObject = playGridArray[row][tile]
+        boatElement = playRows[row].children[tile]
+    if (boatObject.boatPresent == false) {
+        boatObject.boatPresent = true;
+        boatElement.style.backgroundColor = "grey";
+        playerBoatCount = playerBoatCount + 1;
+        console.log(playerBoatCount);
+        if (playerBoatCount == 5) {
+            selectPhase = false
+        }
+    } else {
+        console.log("You've already put a boat there!")
     }
 
 }
@@ -107,31 +117,22 @@ function enTileListeners() {
 //Functions defining enemy tile behavior during player turn
 function playerOffensive(row, tile) {
     let boat = enGridArray[row][tile];
-    console.log(`Shots fired at ${row}, ${tile}`);
-    if (boat.boatPresent == true){
+    console.log(`Shots fired at coordinates ${row}, ${tile}`);
+    if (boat.boatPresent == true && boat.health > 0){
         boat.health -= 1;
-        console.log('Enemy boat hit!');
-        console.log(enGridArray[row][tile].health)
+        console.log(`Enemy boat hit at ${boat.coordinates}! It has ${boat.health} hitpoints left!`);
+        playerTurn = false;
+    } else if (boat.boatPresent == true && boat.health <= 0) {
+        console.log("You've already sunk that boat!")
     } else {
         console.log('Miss')
+        playerTurn = false;
     }
+    hunterKillerLogic();
 }
 
 playTileListeners()
 enTileListeners()
-
-//"Start Game" Logic
-
-startGameButton.addEventListener('click', function () {
-    playGame();
-});
-
-function playGame() {
-    console.log('Game starting')
-    startGameButton.remove();
-    buildTileArray();
-    selectPhase = true;
-}
 
 //Computer Boat Selection Logic
 
@@ -152,4 +153,57 @@ function computerBoatSelector() {
     }
 }
 
+//Computer Hunter-Killer Logic
 
+function hunterKillerLogic() {
+    if (computerMode == 'Hunter') {
+        let randomRow = playGridArray[randNumGen(0, (playGridArray.length))];
+        let randomTile = randomRow[randNumGen(0, (randomRow.length))]
+        console.log('Hunting');
+
+        if (randomTile.boatPresent == false && randomTile.tileChecked == true) {
+            hunterKillerLogic()
+        } else if (randomTile.boatPresent == false && randomTile.tileChecked == false) {
+            randomTile.tileChecked = true;
+            playerTurn = true;
+            console.log('Empty Space Eliminated')
+
+        } else if(randomTile.boatPresent == true) {
+            computerMode = 'Killer';
+            sightedBoat = randomTile;
+            console.log(`The computer found your boat at ${sightedBoat.coordinates}!`)
+        }
+    } else if (computerMode == 'Killer') {
+        console.log(`The computer is firing on your boat at ${sightedBoat.coordinates}!`)
+        sightedBoat.health = sightedBoat.health - 1
+        if (sightedBoat.health <= 0) {
+            console.log(`The computer sank your boat at ${sightedBoat.coordinates}!`)
+            sightedBoat.tileChecked = true;
+            sightedBoat = null;
+            computerMode = 'Hunter'
+        }
+    }
+    //Check game state
+    playerTurn = true;
+}
+
+
+
+
+
+
+
+
+
+//"Start Game" Logic
+
+startGameButton.addEventListener('click', function () {
+    playGame();
+});
+
+function playGame() {
+    console.log('Game starting')
+    startGameButton.remove();
+    buildTileArray();
+    selectPhase = true;
+}
