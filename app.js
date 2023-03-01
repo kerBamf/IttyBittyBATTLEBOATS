@@ -12,7 +12,14 @@ let computerBrainArray = [];
 let playerBoatCount = 0;
 
 function gameReset() {
-    
+    let currentHTML = document.querySelector('body')
+    currentHTML = baseHTML
+    selectPhase = false;
+    playerTurn = false;
+    enGridArray = [];
+    playGridArray = [];
+    computerBrainArray = [];
+    playerBoatCount = 0;
 }
 
 //Building Class for tiles. Each tile will have boat stats, but boat presence will be toggled true or false at the beginning of the game
@@ -111,8 +118,6 @@ startGameButton.addEventListener('click', function () {
 });
 
 function playGame() {
-    let currentHTML = document.querySelector('body')
-    currentHTML = baseHTML
     startGameButton.remove();
     buildTileArray();
     selectPhase = true;
