@@ -11,6 +11,7 @@ let playGridArray = [];
 let computerBrainArray = [];
 let playerBoatCount = 0;
 
+//Game Reset Function
 function gameReset() {
     let currentHTML = document.querySelector('body')
     currentHTML = baseHTML
@@ -47,11 +48,10 @@ function buildTileArray() {
     }
 }
 
-buildTileArray()
 
 //Player Tile Listeners
-function playTileListeners() {
 
+function playTileListeners() {
     for(let i = 0; i < playRows.length; i++) {
         let tiles = playRows[i].children;
         for (let j = 0; j < tiles.length; j++) {
@@ -64,6 +64,7 @@ function playTileListeners() {
         }
     }
 }
+
 
 //Player Tile Logic
 
@@ -118,6 +119,7 @@ startGameButton.addEventListener('click', function () {
 });
 
 function playGame() {
+    console.log('Game starting')
     startGameButton.remove();
     buildTileArray();
     selectPhase = true;
