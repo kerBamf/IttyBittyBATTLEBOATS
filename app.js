@@ -1,20 +1,19 @@
-//Event listener to be added to all tiles
-// let tile = 'placeholder'
-
-// tile.addEventListener('click', function () {
-//     let y = 
-
+//Global Variables
+const baseHTML = document.querySelector('body').innerHTML
 const allTiles = document.querySelectorAll('.tile')
 const enRows = document.querySelectorAll('.enRow')
 const playRows = document.querySelectorAll('.playRow')
 const startGameButton = document.querySelector('#startGame')
 let selectPhase = false;
-let playerTurn = true;
+let playerTurn = false;
 let enGridArray = [];
 let playGridArray = [];
 let computerBrainArray = [];
 let playerBoatCount = 0;
 
+function gameReset() {
+    
+}
 
 //Building Class for tiles. Each tile will have boat stats, but boat presence will be toggled true or false at the beginning of the game
 
@@ -63,10 +62,13 @@ function playTileListeners() {
 
 function selectBoatPosition(row, tile) {
     playGridArray[row][tile].boatPresent = true;
-    console.log(playGridArray[row][tile].boatPresent);
     playRows[row].children[tile].style.backgroundColor = "grey";
-    playerBoatCount = playerBoatCount + 1
+    playerBoatCount = playerBoatCount + 1;
     console.log(playerBoatCount);
+    if (playerBoatCount == 5) {
+        selectPhase = false
+    }
+
 }
 
 
@@ -101,5 +103,21 @@ function playerOffensive(row, tile) {
 
 playTileListeners()
 enTileListeners()
+
+//"Start Game" Logic
+
+startGameButton.addEventListener('click', function () {
+    playGame();
+});
+
+function playGame() {
+    let currentHTML = document.querySelector('body')
+    currentHTML = baseHTML
+    startGameButton.remove();
+    buildTileArray();
+    selectPhase = true;
+}
+
+//"Select Phase" Logic
 
 
