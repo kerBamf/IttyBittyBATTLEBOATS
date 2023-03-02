@@ -125,9 +125,8 @@ function enTileListeners() {
 //Functions defining enemy tile behavior during player turn
 function playerOffensive(row, tile) {
     let boat = enGridArray[row][tile];
-    let boatElement = enRows[row].children[tile]
     console.log(`Shots fired at coordinates ${row}, ${tile}`);
-    if (boat.boatPresent == true && boat.health > 0 && boat.sighted == false){
+    if (boat.boatPresent == true && boat.health > 0 && boat.sighted == true){
         boat.health -= 1;
         console.log(`Enemy boat hit at ${boat.coordinates}!`);
         if (boat.health == 0) {
@@ -136,6 +135,7 @@ function playerOffensive(row, tile) {
         }
     } else if (boat.boatPresent == true && boat.health > 0 && boat.sighted == false) {
         boat.sighted = true;
+        console.log(`Enemy boat sighted at ${boat.coordiantes}`)
     
     } else if (boat.boatPresent == true && boat.health <= 0) {
         console.log("You've already sunk that boat!")
@@ -188,28 +188,32 @@ function computerBoatSelector() {
 
 //Computer Hunter-Killer Logic
 
+let randRowNum = null;
+let randTileNum = null;
 function hunterKillerLogic() {
-    let boatElement = null;
     if (computerMode == 'Hunter' && playerBoatCount > 0) {
-        let randRowNum = randNumGen(0, (playGridArray.length))
+        randRowNum = null;
+        randTileNum = null;
+        randRowNum = randNumGen(0, (playGridArray.length))
         let randomRow = playGridArray[randRowNum];
-        let randTileNum = randNumGen(0, (randomRow.length))
+        randTileNum = randNumGen(0, (randomRow.length))
         let randomTile = randomRow[randTileNum]
         console.log('Hunting');
 
         if (randomTile.tileChecked == true) {
             hunterKillerLogic()
-        } else if (randomTile.boatPresent == false && randomTile.tileChecked == false) {
+        } else if (randomTile.boatPresent == false && randomTile.tileChecked == false && playerTurn == false) {
             randomTile.tileChecked = true;
-            playerTurn = true;
             console.log('Empty Space Eliminated')
+            playerTurn = true;
 
-        } else if(randomTile.boatPresent == true) {
+        } else if(randomTile.boatPresent == true && playerTurn == false) {
             computerMode = 'Killer';
             sightedBoat = randomTile;
             console.log(`The computer found your boat at ${sightedBoat.coordinates}!`)
+            playerTurn = true;
         }
-    } else if (computerMode == 'Killer' && playerBoatCount > 0) {
+    } else if (computerMode == 'Killer' && playerTurn == false && playerBoatCount > 0) {
         console.log(`The computer is firing on your boat at ${sightedBoat.coordinates}!`)
         sightedBoat.health -= 1;
         if (sightedBoat.health <= 0) {
@@ -219,10 +223,9 @@ function hunterKillerLogic() {
             sightedBoat = null;
             computerMode = 'Hunter'
         }
+    playerTurn = true;
     }
-    if (playerBoatCount > 0) {
-        playerTurn = true;
-    }
+    colorPlayTiles(randRowNum, randTileNum)
     checkGameOver()
     
 }
@@ -230,16 +233,13 @@ function hunterKillerLogic() {
 //Player tile color changer 
 
 function colorPlayTiles (row, tile) {
-    let boat = enGridArray[row][tile]
-    let boatElement = enRows[row].children[tile]
-    if (boat.sighted == true) {
-        boatElement.style.backgroundColor = 'grey';
-    }
-    if (boat.sighted == true && boat.health == 2) {
+    let boat = playGridArray[row][tile]
+    let boatElement = playRows[row].children[tile]
+    if (boat.health == 2) {
         boatElement.style.backgroundColor = 'yellow'
-    } else if (boat.sighted == true && boat.health == 1) {
+    } else if (boat.health == 1) {
         boatElement.style.backgroundColor = 'orange'
-    } else if (boat.sighted == true && boat.health == 0) {
+    } else if (boat.health <= 0) {
         boatElement.style.backgroundColor = 'red'
     }
 }
