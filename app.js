@@ -8,9 +8,8 @@ let selectPhase = false;
 let playerTurn = false;
 let enGridArray = [];
 let playGridArray = [];
-let computerBrainArray = [];
 let playerBoatCount = 0;
-let computerBoatCount = 5;
+let computerBoatCount = 0;
 let computerMode = 'Hunter';
 let sightedBoat = null;
 
@@ -25,7 +24,7 @@ function gameReset() {
     selectPhase = false;
     playerTurn = false;
     playerBoatCount = 0;
-    computerBoatCount = 5;
+    computerBoatCount = 0;
     computerMode = 'Hunter';
     sightedBoat = null;
     console.log('Game has been reset')
@@ -50,10 +49,8 @@ class TileStats {
 }
 
 //Building Boat Arrays. Can be latered modified for stretch feature of custome map size.
-function buildTileArray() {
+function buildEnTileArray() {
     enGridArray = [];
-    playGridArray = [];
-    computerBrainArray = [];
     for(let i = 0; i < enRows.length; i++) {
         let newRowArray = [];
         for(let j = 0; j < enRows[i].children.length; j++) {
@@ -62,8 +59,19 @@ function buildTileArray() {
             newRowArray.push(newTile)
         }
         enGridArray.push(newRowArray)
+    }
+}
+
+function buildPlayerTileArray() {
+    playGridArray = [];
+    for(let i = 0; i < playRows.length; i++) {
+        let newRowArray = [];
+        for(let j = 0; j < playRows[i].children.length; j++) {
+             let newTile = new TileStats()
+             newTile.coordinates = `${i}, ${j}`
+            newRowArray.push(newTile)
+        }
         playGridArray.push(newRowArray)
-        computerBrainArray.push(newRowArray)
     }
 }
 
@@ -91,18 +99,18 @@ function playTileListeners() {
 function selectBoatPosition(row, tile) {
     let boatObject = playGridArray[row][tile]
         boatElement = playRows[row].children[tile]
-    if (boatObject.boatPresent == false) {
+    
+    if (boatObject.boatPresent == true) {
+        console.log("You've already put a boat there!")
+    } else if (boatObject.boatPresent == false) {
         boatObject.boatPresent = true;
         boatElement.style.backgroundColor = "grey";
         playerBoatCount = playerBoatCount + 1;
         console.log(playerBoatCount);
-        if (playerBoatCount == 5) {
-            selectPhase = false
-        }
-    } else {
-        console.log("You've already put a boat there!")
     }
-
+    if (playerBoatCount == 5) {
+            selectPhase = false
+    }
 }
 
 
@@ -120,7 +128,7 @@ function enTileListeners() {
             })
         }
     }
-    console.log('Adding Enemy Listeners')
+    console.log('Added Enemy Listeners')
 }
 
 //Functions defining enemy tile behavior during player turn
@@ -128,21 +136,23 @@ function playerOffensive(row, tile) {
     let boat = enGridArray[row][tile];
     if (boat.boatPresent == false) {
         console.log('Miss')
-    }  else if (boat.boatPresent == true && boat.health <= 0) {
+    }  else if (boat.boatPresent == true && boat.sunk == true) {
         console.log("You've already sunk that boat!") 
-    } else if (boat.boatPresent == true && boat.health > 0 && boat.sighted == false) {
+    } else if (boat.boatPresent == true && boat.sighted == false) {
         boat.sighted = true;
         console.log(`Enemy boat sighted at ${boat.coordinates}`)
     
-    } else if (boat.boatPresent == true && boat.health > 0 && boat.sighted == true){
+    } else if (boat.boatPresent == true && boat.sunk == false && boat.sighted == true){
         boat.health -= 1;
         console.log(`Enemy boat hit at ${boat.coordinates}!`);
         if (boat.health == 0) {
             console.log (`Enemy boat at ${boat.coordinates} has been sunk!`)
             computerBoatCount -= 1;
+            boat.sunk = true;
         }
     }
     colorEnTiles(row, tile);
+    //sound effect placeholder
     playerTurn = false;
     checkGameOver()
     if (computerBoatCount > 0) {
@@ -165,25 +175,25 @@ function colorEnTiles (row, tile) {
     }
 }
 
-
 //Computer Boat Selection Logic
 
 function selectEnemyBoats() {
     while (computerBoatCount < 5) {
         computerBoatSelector();
+        computerBoatCount += 1;
     }
 }
 
 function computerBoatSelector() {
-    let randomRow = enGridArray[randNumGen(0, (enGridArray.length-1))]
-    let randomTile = randomRow[randNumGen(0, (randomRow.length-1))]
-    if (randomTile.boatPresent = false) {
-        randomTile.boatPresent = true;
-        computerBoatCount = computerBoatCount + 1;
-    } else {
+    let randomRow = enGridArray[randNumGen(0, (enGridArray.length))]
+    let randomTile = randomRow[randNumGen(0, (randomRow.length))] 
+    if (randomTile.boatPresent == true) {
         computerBoatSelector();
-    }
+    } else if (randomTile.boatPresent == false) {
+        randomTile.boatPresent = true;
+    } 
 }
+
 
 //Computer Hunter-Killer Logic
 
@@ -224,6 +234,7 @@ function hunterKillerLogic() {
         }
     playerTurn = true;
     }
+    //sound effect placeholder
     colorPlayTiles(randRowNum, randTileNum)
     checkGameOver()
     
@@ -283,8 +294,10 @@ addStartButtonListener()
 function startGame() {
     console.log('Game starting')
     startGameButton.remove();
-    buildTileArray();
+    buildEnTileArray()
+    buildPlayerTileArray()
     playTileListeners()
     enTileListeners()
+    selectEnemyBoats()
     selectPhase = true;
 }
