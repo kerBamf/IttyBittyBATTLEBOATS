@@ -94,7 +94,7 @@ function playTileListeners() {
 }
 
 
-//Player Tile Logic
+//Player Tile Logic for selecting player boat positions
 
 function selectBoatPosition(row, tile) {
     let boatObject = playGridArray[row][tile]
@@ -110,6 +110,7 @@ function selectBoatPosition(row, tile) {
     }
     if (playerBoatCount == 5) {
             selectPhase = false
+            playerTurn = true
     }
 }
 
@@ -224,7 +225,12 @@ function hunterKillerLogic() {
         }
     } else if (computerMode == 'Killer' && playerTurn == false && playerBoatCount > 0) {
         console.log(`The computer is firing on your boat at ${sightedBoat.coordinates}!`)
-        sightedBoat.health -= 1;
+        let hitChance = Math.random()
+        if (hitChance >= .5) {
+            sightedBoat.health -= 1;
+        } else if (hitChance < .5) {
+            console.log('THe enemy missed!')
+        }
         if (sightedBoat.health <= 0) {
             console.log(`The computer sank your boat at ${sightedBoat.coordinates}!`)
             playerBoatCount -= 1;
@@ -258,12 +264,14 @@ function colorPlayTiles (row, tile) {
 //Game over Logic
 function checkGameOver() {
     if (playerBoatCount == 0) {
+        playerTurn = null;
         let playerDecision = confirm('You were deafeated by the enemy fleet! Would you like to play again?');
         if (playerDecision == true) {
             gameReset()
         }
     }
      else if (computerBoatCount == 0) {
+        playerTurn == null;
         let playerDecision = confirm('You defeated the enemy! Would you like to play again?');
         if (playerDecision == true) {
             gameReset()
