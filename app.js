@@ -125,24 +125,37 @@ function enTileListeners() {
 //Functions defining enemy tile behavior during player turn
 function playerOffensive(row, tile) {
     let boat = enGridArray[row][tile];
+    let boatElement = enRows[row].children[tile]
     console.log(`Shots fired at coordinates ${row}, ${tile}`);
-    if (boat.boatPresent == true && boat.health > 0){
+    if (boat.boatPresent == true && boat.health > 0 && boat.sighted == false){
         boat.health -= 1;
-        console.log(`Enemy boat hit at ${boat.coordinates}! It has ${boat.health} hitpoints left!`);
+        console.log(`Enemy boat hit at ${boat.coordinates}!`);
+        if (boat.health == 0) {
+            console.log (`Enemy boat at ${boat.coordinates} has been sunk!`)
+            computerBoatCount -= 1;
+        }
+    } else if (boat.boatPresent == true && boat.health > 0 && boat.sighted == false) {
+        boat.sighted = true;
+    
     } else if (boat.boatPresent == true && boat.health <= 0) {
         console.log("You've already sunk that boat!")
     } else {
         console.log('Miss')
     }
+    //tilecolor checker placeholder
     playerTurn = false;
     checkGameOver()
     if (playerBoatCount > 0) {
         hunterKillerLogic();
     }
 }
+//Enemy tile color changer 
 
-// playTileListeners()
-// enTileListeners()
+function colorEnTiles (row, tile) {
+    let boat = enGridArray[row][tile]
+    let boatElement = enRows[row].children[tile]
+}
+
 
 //Computer Boat Selection Logic
 
@@ -197,7 +210,6 @@ function hunterKillerLogic() {
     checkGameOver()
     playerTurn = true;
 }
-
 
 
 //Game over Logic
