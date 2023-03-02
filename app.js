@@ -45,6 +45,7 @@ class TileStats {
         this.sighted = false;
         this.tileChecked = false;
         this.coordinates = null;
+        this.sunk = false;
     }
 }
 
@@ -106,7 +107,7 @@ function selectBoatPosition(row, tile) {
 
 
 
-// New Listener currently populated with hit/miss logic, deriving coordinates from iterators. This will allow listeners to be accurately applied regardless of grid size, and will match associated boat-stat array(s) since they both use the same iterators. Later version will execute different functions based on "game-state" variables yet to be coded.
+// Enemy tile listeners
 function enTileListeners() {
     for(let i = 0; i < enRows.length; i++) {
         let tiles = enRows[i].children;
@@ -125,22 +126,21 @@ function enTileListeners() {
 //Functions defining enemy tile behavior during player turn
 function playerOffensive(row, tile) {
     let boat = enGridArray[row][tile];
-    console.log(`Shots fired at coordinates ${row}, ${tile}`);
-    if (boat.boatPresent == true && boat.health > 0 && boat.sighted == true){
+    if (boat.boatPresent == false) {
+        console.log('Miss')
+    }  else if (boat.boatPresent == true && boat.health <= 0) {
+        console.log("You've already sunk that boat!") 
+    } else if (boat.boatPresent == true && boat.health > 0 && boat.sighted == false) {
+        boat.sighted = true;
+        console.log(`Enemy boat sighted at ${boat.coordinates}`)
+    
+    } else if (boat.boatPresent == true && boat.health > 0 && boat.sighted == true){
         boat.health -= 1;
         console.log(`Enemy boat hit at ${boat.coordinates}!`);
         if (boat.health == 0) {
             console.log (`Enemy boat at ${boat.coordinates} has been sunk!`)
             computerBoatCount -= 1;
         }
-    } else if (boat.boatPresent == true && boat.health > 0 && boat.sighted == false) {
-        boat.sighted = true;
-        console.log(`Enemy boat sighted at ${boat.coordiantes}`)
-    
-    } else if (boat.boatPresent == true && boat.health <= 0) {
-        console.log("You've already sunk that boat!")
-    } else {
-        console.log('Miss')
     }
     colorEnTiles(row, tile);
     playerTurn = false;
@@ -154,14 +154,13 @@ function playerOffensive(row, tile) {
 function colorEnTiles (row, tile) {
     let boat = enGridArray[row][tile]
     let boatElement = enRows[row].children[tile]
-    if (boat.sighted == true) {
+    if (boat.sighted == true && boat.health == 3) {
         boatElement.style.backgroundColor = 'grey';
-    }
-    if (boat.sighted == true && boat.health == 2) {
+    } else if (boat.sighted == true && boat.health == 2) {
         boatElement.style.backgroundColor = 'yellow'
     } else if (boat.sighted == true && boat.health == 1) {
         boatElement.style.backgroundColor = 'orange'
-    } else if (boat.sighted == true && boat.health == 0) {
+    } else if (boat.sighted == true && boat.health <= 0) {
         boatElement.style.backgroundColor = 'red'
     }
 }
