@@ -142,10 +142,10 @@ function playerOffensive(row, tile) {
     } else {
         console.log('Miss')
     }
-    //tilecolor checker placeholder
+    colorEnTiles(row, tile);
     playerTurn = false;
     checkGameOver()
-    if (playerBoatCount > 0) {
+    if (computerBoatCount > 0) {
         hunterKillerLogic();
     }
 }
@@ -154,6 +154,16 @@ function playerOffensive(row, tile) {
 function colorEnTiles (row, tile) {
     let boat = enGridArray[row][tile]
     let boatElement = enRows[row].children[tile]
+    if (boat.sighted == true) {
+        boatElement.style.backgroundColor = 'grey';
+    }
+    if (boat.sighted == true && boat.health == 2) {
+        boatElement.style.backgroundColor = 'yellow'
+    } else if (boat.sighted == true && boat.health == 1) {
+        boatElement.style.backgroundColor = 'orange'
+    } else if (boat.sighted == true && boat.health == 0) {
+        boatElement.style.backgroundColor = 'red'
+    }
 }
 
 
@@ -179,9 +189,12 @@ function computerBoatSelector() {
 //Computer Hunter-Killer Logic
 
 function hunterKillerLogic() {
+    let boatElement = null;
     if (computerMode == 'Hunter' && playerBoatCount > 0) {
-        let randomRow = playGridArray[randNumGen(0, (playGridArray.length))];
-        let randomTile = randomRow[randNumGen(0, (randomRow.length))]
+        let randRowNum = randNumGen(0, (playGridArray.length))
+        let randomRow = playGridArray[randRowNum];
+        let randTileNum = randNumGen(0, (randomRow.length))
+        let randomTile = randomRow[randTileNum]
         console.log('Hunting');
 
         if (randomTile.tileChecked == true) {
@@ -207,8 +220,28 @@ function hunterKillerLogic() {
             computerMode = 'Hunter'
         }
     }
+    if (playerBoatCount > 0) {
+        playerTurn = true;
+    }
     checkGameOver()
-    playerTurn = true;
+    
+}
+
+//Player tile color changer 
+
+function colorPlayTiles (row, tile) {
+    let boat = enGridArray[row][tile]
+    let boatElement = enRows[row].children[tile]
+    if (boat.sighted == true) {
+        boatElement.style.backgroundColor = 'grey';
+    }
+    if (boat.sighted == true && boat.health == 2) {
+        boatElement.style.backgroundColor = 'yellow'
+    } else if (boat.sighted == true && boat.health == 1) {
+        boatElement.style.backgroundColor = 'orange'
+    } else if (boat.sighted == true && boat.health == 0) {
+        boatElement.style.backgroundColor = 'red'
+    }
 }
 
 
