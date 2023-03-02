@@ -13,7 +13,7 @@ let computerBoatCount = 0;
 let computerMode = 'Hunter';
 let sightedBoat = null;
 
-//Game Reset Function. Listeners need to be reset after HTML reset
+//Game Reset Function. Listeners need to be reapplied after HTML reset
 function gameReset() {
     document.querySelector('.board').innerHTML = baseHTML
     recreateStartButton()
