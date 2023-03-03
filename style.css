@@ -2,13 +2,13 @@
 }
 
 #bgImage{
-    position: absolute;
-    width: 100%;
-    margin: 0 auto;
-    top: -52%;
+    position: fixed;
+    width: 850px;
+    top: -30%;
+    left: 40px;
     z-index: -1;
     background-image: url('./assets/wave.png');
-    background-size: cover;
+    background-size: 100% 100%;
 
 }
 
