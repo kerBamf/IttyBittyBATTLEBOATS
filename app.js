@@ -77,15 +77,6 @@ function buildPlayerTileArray() {
     }
 }
 
-//Adding Tile Backgrounds
-// for (i = 0; i < allTiles.length; i++) {
-//     let tileWater = document.createElement('img')
-//     tileWater.style.width = '60px'
-//     tileWater.style.height = '60px'
-//     tileWater.src = './assets/wave.png'
-//     allTiles[i].appendChild(tileWater)
-// }
-
 function addEnemyBoatGraphic(row, tile) {
         let boatGraphic = document.createElement('img')
         boatGraphic.style.height = '60px'
