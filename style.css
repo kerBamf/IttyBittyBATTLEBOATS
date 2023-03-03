@@ -1,29 +1,54 @@
-body {
-
+h1 {
+    font-family: 'Caveat', cursive;
+    font-size: 9ch;
+    color: rgb(83, 161, 255);
+    text-decoration: underline;
 }
 
-h1 {
+span {
+    font-family: 'Black Ops One', cursive;
+    background:  linear-gradient(to top,  rgb(0, 66, 147), rgb(0, 115, 255));
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    text-decoration: none;
+}
+
+body {
+    background: rgb(251, 231, 168);
 }
 
 h3 {
 }
 
 .label {
+    font-family: 'Black Ops One', cursive;
     display: block;
     text-align: center;
+    color: rgb(0, 115, 255);
+    background-color: rgb(248, 239, 211);
+    margin: 0 130px 0 130px;
+    padding: 10px 0 10px 0;
+    border-radius: 10px;
 }
 
 .board {
-    padding: 0 0 0 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    margin: 0 auto;
 }
 
 .gridAndLabel {
-    display: inline-block;
 }
 
 .grid {
     display: inline-block;
-    margin: 30px 50px 0 50px;
+    margin: 10px 50px 0 50px;
+    background-color: rgb(248, 239, 211);
+    padding: 15px;
+    border-radius: 10px;
+    border: 3px;
+    border-style: outset;
 }
 
 #playGrid {
@@ -46,4 +71,11 @@ h3 {
     height: 60px;
     border: 1px white;
     border-style: groove;
+    border-radius: 5px;
+}
+
+button {
+    display: block;
+    text-align: center;
+    margin: 0 auto;
 }

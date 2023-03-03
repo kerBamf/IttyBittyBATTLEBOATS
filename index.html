@@ -6,14 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Itty Bitty BATTLE BOATS</title>
     <link rel="stylesheet" href="./style.css"></link>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Caveat:wght@600&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
     <script src="./app.js" defer></script>
 </head>
 <body>
-    <h1>Itty Bitty BATTLE BOATS</h1>
+    <h1>Itty Bitty <span>BATTLE BOATS</span>
+    </h1>
     <div class="board">
         <div class="gridAndLabel">
-            <h3 class="label">Player Grid</h3>
+            <h3 class="label">Player Boats</h3>
             <div class='grid' id="playGrid">
                 <div class="playRow" id="playRow1">
                     <div class="tile"></div>
@@ -53,7 +57,7 @@
             </div>
         </div>
         <div class="gridAndLabel">
-            <h3 class="label">Computer Grid</h3>
+            <h3 class="label">Enemy Boats</h3>
             <div class='grid' id="EnGrid">
                 <div class="enRow" id="EnRow1">
                     <div class="tile"></div>
