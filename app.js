@@ -78,13 +78,13 @@ function buildPlayerTileArray() {
 }
 
 //Adding Tile Backgrounds
-for (i = 0; i < allTiles.length; i++) {
-    let tileWater = document.createElement('img')
-    tileWater.style.width = '60px'
-    tileWater.style.height = '60px'
-    tileWater.src = './assets/wave.png'
-    allTiles[i].appendChild(tileWater)
-}
+// for (i = 0; i < allTiles.length; i++) {
+//     let tileWater = document.createElement('img')
+//     tileWater.style.width = '60px'
+//     tileWater.style.height = '60px'
+//     tileWater.src = './assets/wave.png'
+//     allTiles[i].appendChild(tileWater)
+// }
 
 function addEnemyBoatGraphic(row, tile) {
         let boatGraphic = document.createElement('img')
@@ -134,7 +134,7 @@ function selectBoatPosition(row, tile) {
         boatObject.boatPresent = true;
         playerBoatCount = playerBoatCount + 1;
         console.log(playerBoatCount);
-        boatImage.remove();
+        //boatImage.remove();
         addPlayerBoatGraphic(row, tile);
     }
     if (playerBoatCount == 5) {
@@ -198,7 +198,6 @@ function colorEnTiles (row, tile) {
     let boatElement = enRows[row].children[tile]
     let boatImage = boatElement.firstChild
     if (boat.sighted == true && boat.health == 3) {
-        boatImage.remove()
         addEnemyBoatGraphic(row, tile)
     } else if (boat.sighted == true && boat.health == 2) {
         boatElement.style.backgroundColor = 'yellow'
