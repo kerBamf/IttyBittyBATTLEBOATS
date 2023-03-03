@@ -28,7 +28,7 @@ h3 {
     background-color: rgb(248, 239, 211);
     margin: 0 130px 0 130px;
     padding: 10px 0 10px 0;
-    border-radius: 10px;
+    border-radius: 12px;
 }
 
 .board {
@@ -74,8 +74,20 @@ h3 {
     border-radius: 5px;
 }
 
-button {
+#startGame {
+    font-family: 'Caveat', cursive;
+    font-size: 3ch;
+    color:rgb(0, 115, 255);
     display: block;
     text-align: center;
-    margin: 0 auto;
+    margin: 30px auto;
+    border: 5px;
+    border-radius: 5px;
+    border-style: outset;
+    background-color: rgb(248, 239, 211);
+}
+
+.waveimg {
+    width: 60px;
+    height: 60px;
 }

@@ -1,6 +1,7 @@
 //Global Variables
 const bodySelector = document.querySelector('.board')
 const baseHTML = bodySelector.innerHTML;
+let allTiles = document.querySelectorAll('.tile')
 let enRows = document.querySelectorAll('.enRow')
 let playRows = document.querySelectorAll('.playRow')
 let startGameButton = document.querySelector('#startGame')
@@ -29,6 +30,7 @@ function gameReset() {
     sightedBoat = null;
     console.log('Game has been reset')
 }
+
 
 //Random Number Generator
 function randNumGen(min, max) {
@@ -75,6 +77,32 @@ function buildPlayerTileArray() {
     }
 }
 
+//Adding Tile Backgrounds
+for (i = 0; i < allTiles.length; i++) {
+    let tileWater = document.createElement('img')
+    tileWater.style.width = '60px'
+    tileWater.style.height = '60px'
+    tileWater.src = './assets/wave.png'
+    allTiles[i].appendChild(tileWater)
+}
+
+function addEnemyBoatGraphic(row, tile) {
+        let boatGraphic = document.createElement('img')
+        boatGraphic.style.height = '60px'
+        boatGraphic.style.width = '60px'
+        boatGraphic.src = './assets/enemyBoat.png'
+        enRows[row].children[tile].appendChild(boatGraphic)
+}
+
+function addPlayerBoatGraphic(row, tile) {
+        let boatGraphic = document.createElement('img')
+        boatGraphic.style.height = '60px'
+        boatGraphic.style.width = '60px'
+        boatGraphic.src = './assets/friendlyBoat.png'
+        playRows[row].children[tile].appendChild(boatGraphic)
+}
+
+
 
 //Player Tile Listeners
 
@@ -99,14 +127,15 @@ function playTileListeners() {
 function selectBoatPosition(row, tile) {
     let boatObject = playGridArray[row][tile]
         boatElement = playRows[row].children[tile]
-    
+        boatImage = boatElement.firstChild
     if (boatObject.boatPresent == true) {
         console.log("You've already put a boat there!")
     } else if (boatObject.boatPresent == false) {
         boatObject.boatPresent = true;
-        boatElement.style.backgroundColor = "grey";
         playerBoatCount = playerBoatCount + 1;
         console.log(playerBoatCount);
+        boatImage.remove();
+        addPlayerBoatGraphic(row, tile);
     }
     if (playerBoatCount == 5) {
             selectPhase = false
@@ -131,6 +160,8 @@ function enTileListeners() {
     }
     console.log('Added Enemy Listeners')
 }
+
+
 
 //Functions defining enemy tile behavior during player turn
 function playerOffensive(row, tile) {
@@ -165,8 +196,10 @@ function playerOffensive(row, tile) {
 function colorEnTiles (row, tile) {
     let boat = enGridArray[row][tile]
     let boatElement = enRows[row].children[tile]
+    let boatImage = boatElement.firstChild
     if (boat.sighted == true && boat.health == 3) {
-        boatElement.style.backgroundColor = 'grey';
+        boatImage.remove()
+        addEnemyBoatGraphic(row, tile)
     } else if (boat.sighted == true && boat.health == 2) {
         boatElement.style.backgroundColor = 'yellow'
     } else if (boat.sighted == true && boat.health == 1) {
