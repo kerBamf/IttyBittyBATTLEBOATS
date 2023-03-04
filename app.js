@@ -165,6 +165,8 @@ function enTileListeners() {
 //Functions defining enemy tile behavior during player turn
 function playerOffensive(row, tile) {
     let boat = enGridArray[row][tile];
+    let boatElement = enRows[row].children[tile]
+    let boatImage = boatElement.firstChild
     if (boat.boatPresent == false) {
         console.log('Miss')
     }  else if (boat.boatPresent == true && boat.sunk == true) {
@@ -179,6 +181,10 @@ function playerOffensive(row, tile) {
         if (boat.health == 0) {
             console.log (`Enemy boat at ${boat.coordinates} has been sunk!`)
             computerBoatCount -= 1;
+            boatImage.src = 'https://media.tenor.com/ptNG8DQFPD4AAAAj/explotion-explode.gif'
+            setTimeout(function () {
+                boatImage.src = './assets/enemyBoat.png'
+            }, 1000)
             boat.sunk = true;
         }
     }
@@ -282,11 +288,16 @@ function hunterKillerLogic() {
 function colorPlayTiles (row, tile) {
     let boat = playGridArray[row][tile]
     let boatElement = playRows[row].children[tile]
+    let boatImage = boatElement.firstChild
     if (boat.health == 2) {
         boatElement.style.backgroundColor = 'yellow'
     } else if (boat.health == 1) {
         boatElement.style.backgroundColor = 'orange'
     } else if (boat.health <= 0) {
+        boatImage.src = 'https://media.tenor.com/ptNG8DQFPD4AAAAj/explotion-explode.gif'
+            setTimeout(function () {
+                boatImage.src = './assets/friendlyBoat.png'
+            }, 1000)
         boatElement.style.backgroundColor = 'red'
     }
 }
@@ -305,7 +316,6 @@ function checkGameOver() {
 }
 
 //Game over button event listeners
-
 const startOverButtons = document.querySelectorAll('.playAgain')
 const leaveMeButtons = document.querySelectorAll('.notAgain')
 for (let i = 0; i < startOverButtons.length; i++) {
