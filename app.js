@@ -183,7 +183,7 @@ function playerOffensive(row, tile) {
             computerBoatCount -= 1;
             boatImage.src = 'https://media.tenor.com/ptNG8DQFPD4AAAAj/explotion-explode.gif'
             setTimeout(function () {
-                boatImage.src = './assets/enemyBoat.png'
+                boatImage.src = './assets/enemySunk.png'
             }, 1000)
             boat.sunk = true;
         }
@@ -296,7 +296,7 @@ function colorPlayTiles (row, tile) {
     } else if (boat.health <= 0) {
         boatImage.src = 'https://media.tenor.com/ptNG8DQFPD4AAAAj/explotion-explode.gif'
             setTimeout(function () {
-                boatImage.src = './assets/friendlyBoat.png'
+                boatImage.src = './assets/friendlySunk.png'
             }, 1000)
         boatElement.style.backgroundColor = 'red'
     }
