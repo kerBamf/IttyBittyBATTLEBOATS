@@ -12,12 +12,23 @@
 
 }
 
+#badBgImage {
+    position: fixed;
+    width: 350px;
+    top: 1%;
+    right: 40px;
+    z-index: -2;
+
+}
+
 h1 {
+    position: relative;
+    top: -50px;
     font-family: 'Caveat', cursive;
     font-size: 9ch;
-    color: rgb(83, 161, 255);
+    color: rgb(40, 117, 211);
     text-decoration: underline;
-    background-color: rgba(255, 255, 255, 0.75);
+    background-color: rgba(255, 255, 255, 0.83);
 }
 
 span {
@@ -93,12 +104,13 @@ h3 {
 }
 
 #startGame {
-    font-family: 'Caveat', cursive;
+    font-family: 'Black Ops One', cursive;
     font-size: 3ch;
     color:rgb(0, 115, 255);
     display: block;
     text-align: center;
     margin: 30px auto;
+    padding: 0 30px;
     border: 5px;
     border-radius: 5px;
     border-style: outset;
