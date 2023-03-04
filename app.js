@@ -13,6 +13,8 @@ let playerBoatCount = 0;
 let computerBoatCount = 0;
 let computerMode = 'Hunter';
 let sightedBoat = null;
+const defeatWindow = document.querySelector('#defeat');
+const victoryWindow = document.querySelector('#victory');
 
 //Game Reset Function. Listeners need to be reapplied after HTML reset
 function gameReset() {
@@ -288,16 +290,31 @@ function colorPlayTiles (row, tile) {
 function checkGameOver() {
     if (playerBoatCount == 0) {
         playerTurn = null;
-        let defeatWindow = document.querySelector('#defeat');
         defeatWindow.style.display = 'block';
-        }
-    } else if (computerBoatCount == 0) {
+
+        } else if (computerBoatCount == 0) {
         playerTurn == null;
-        let victoryWindow = document.querySelector('#victory');
         victoryWindow.style.display = 'block';
+    }
 }
 
+//Game over button event listeners
 
+const startOverButtons = document.querySelectorAll('.playAgain')
+const leaveMeButtons = document.querySelectorAll('.notAgain')
+for (let i = 0; i < startOverButtons.length; i++) {
+    startOverButtons[i].addEventListener('click', function () {
+        defeatWindow.style.display = 'none';
+        victoryWindow.style.display = 'none';
+        gameReset()
+    })
+}
+for (let i = 0; i < leaveMeButtons.length; i++) {
+    leaveMeButtons[i].addEventListener('click', function () {
+        defeatWindow.style.display = 'none';
+        victoryWindow.style.display = 'none';
+    })
+}
 
 
 
