@@ -53,6 +53,10 @@ body {
     margin: 0 auto;
 }
 
+.gridAndLabel {
+    min-width: 589px;
+}
+
 .label {
     font-family: 'Black Ops One', cursive;
     display: block;
@@ -74,16 +78,18 @@ body {
     border-style: outset;
 }
 
+
 .tile {
     display: inline-block;
     background-color: aqua;
     background-image: url('./assets/wave.png');
-    background-size: 60px 60px;
-    margin: 0;
-    width: 60px;
-    height: 60px;
-    border: 1px white;
-    border-style: groove;
+    background-size: cover;
+    margin: 0px;
+    width: 72px;
+    height: 72px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, .4);
+    /* border: 1px white;
+    border-style: solid; */
     border-radius: 5px;
 }
 
@@ -111,10 +117,6 @@ body {
     background-color: rgb(248, 239, 211);
 }
 
-.waveimg {
-    width: 60px;
-    height: 60px;
-}
 
 #victory {
     display: none;
@@ -137,7 +139,7 @@ body {
     top: 26%;
     left: 30.5%;
     width: 450px;
-    height: 185px;
+    height: 160px;
     box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .3);
     background-color: rgb(248, 239, 211);
     border: 10px outset;
@@ -147,9 +149,10 @@ body {
 .popupText {
     text-align: center;
     color:rgb(40, 117, 211);
-    font-family: 'Caveat', cursive;
-    font-size: 25px;
-    margin: 10px 4px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 15px 10px;
 }
 
 .buttonDiv {
