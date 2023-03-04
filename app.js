@@ -288,19 +288,15 @@ function colorPlayTiles (row, tile) {
 function checkGameOver() {
     if (playerBoatCount == 0) {
         playerTurn = null;
-        let playerDecision = confirm('You were deafeated by the enemy fleet! Would you like to play again?');
-        if (playerDecision == true) {
-            gameReset()
+        let defeatWindow = document.querySelector('#defeat');
+        defeatWindow.style.display = 'block';
         }
-    }
-     else if (computerBoatCount == 0) {
+    } else if (computerBoatCount == 0) {
         playerTurn == null;
-        let playerDecision = confirm('You defeated the enemy! Would you like to play again?');
-        if (playerDecision == true) {
-            gameReset()
-        }
-    }
+        let victoryWindow = document.querySelector('#victory');
+        victoryWindow.style.display = 'block';
 }
+
 
 
 

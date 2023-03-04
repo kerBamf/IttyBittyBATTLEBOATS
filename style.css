@@ -109,3 +109,67 @@ h3 {
     width: 60px;
     height: 60px;
 }
+
+#victory {
+    display: none;
+    position: absolute;
+    z-index: 3;
+    top: 26%;
+    left: 30.5%;
+    width: 450px;
+    height: 150px;
+    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .3);
+    background-color: rgb(248, 239, 211);
+    border: 10px outset;
+    border-radius: 15px;
+}
+
+#defeat {
+    display: none;
+    position: absolute;
+    z-index: 3;
+    top: 26%;
+    left: 30.5%;
+    width: 450px;
+    height: 150px;
+    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .3);
+    background-color: rgb(248, 239, 211);
+    border: 10px outset;
+    border-radius: 15px;
+}
+
+.popupText {
+    text-align: center;
+}
+
+.buttonDiv {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.playAgain {
+    display: inline;
+    font-family: 'Caveat', cursive;
+    font-size: 3ch;
+    color:rgb(0, 115, 255);
+    margin: 0 15px;
+    text-align: center;
+    border: 5px;
+    border-radius: 5px;
+    border-style: outset;
+    background-color: rgb(248, 239, 211)
+}
+
+.notAgain {
+    display: inline;
+    font-family: 'Caveat', cursive;
+    font-size: 3ch;
+    color:rgb(0, 115, 255);
+    margin: 0 15px;
+    text-align: center;
+    border: 5px;
+    border-radius: 5px;
+    border-style: outset;
+    background-color: rgb(248, 239, 211)
+}
