@@ -1,7 +1,8 @@
 //Global Variables
 const bodySelector = document.querySelector('.board')
 const baseHTML = bodySelector.innerHTML;
-let allTiles = document.querySelectorAll('.tile')
+let selectInstructions = document.querySelector('#placeBoats')
+let attackInstructions = document.querySelector('#findBoats')
 let enRows = document.querySelectorAll('.enRow')
 let playRows = document.querySelectorAll('.playRow')
 let startGameButton = document.querySelector('#startGame')
@@ -18,12 +19,15 @@ const victoryWindow = document.querySelector('#victory');
 
 //Game Reset Function. Listeners need to be reapplied after HTML reset
 function gameReset() {
-    document.querySelector('.board').innerHTML = baseHTML
+    let board = document.querySelector('.board');
+    board.innerHTML = baseHTML;
     recreateStartButton()
     startGameButton = document.querySelector('#startGame')
     addStartButtonListener()
     enRows = document.querySelectorAll('.enRow')
     playRows = document.querySelectorAll('.playRow')
+    selectInstructions = document.querySelector('#placeBoats')
+    attackInstructions = document.querySelector('#findBoats')
     selectPhase = false;
     playerTurn = false;
     playerBoatCount = 0;
@@ -133,6 +137,8 @@ function selectBoatPosition(row, tile) {
     if (playerBoatCount == 5) {
             selectPhase = false
             playerTurn = true
+            selectInstructions.style.opacity = '0';
+            attackInstructions.style.opacity = '1';
     }
 }
 
@@ -313,23 +319,25 @@ for (let i = 0; i < leaveMeButtons.length; i++) {
     leaveMeButtons[i].addEventListener('click', function () {
         defeatWindow.style.display = 'none';
         victoryWindow.style.display = 'none';
+        selectInstructions.innerText = 'A quiet settles...'
+        selectInstructions.style.opacity = "1"
+        attackInstructions.innerText = '...over war-torn ocean...'
+        attackInstructions.style.opacity = '1'
     })
 }
-
-
-
 
 //"Start Game" Logic
 function addStartButtonListener() {
     startGameButton.addEventListener('click', function () {
         startGame();
+        selectInstructions.style = 'opacity: 1';
     });
 }
 
 function recreateStartButton() {
     let newButton = document.createElement('button')
     newButton.id = 'startGame'
-    newButton.innerText = 'Start Game'
+    newButton.innerText = 'Start'
     document.querySelector('body').appendChild(newButton)
 }
 

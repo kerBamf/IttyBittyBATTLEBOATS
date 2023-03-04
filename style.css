@@ -44,7 +44,13 @@ body {
     margin: 0 0 275px 0;
 }
 
-h3 {
+
+
+.board {
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    margin: 0 auto;
 }
 
 .label {
@@ -58,16 +64,6 @@ h3 {
     border-radius: 12px;
 }
 
-.board {
-    display: flex;
-    flex-direction: row;
-    justify-content:center;
-    margin: 0 auto;
-}
-
-.gridAndLabel {
-}
-
 .grid {
     display: inline-block;
     margin: 10px 50px 0 50px;
@@ -76,18 +72,6 @@ h3 {
     border-radius: 10px;
     border: 3px;
     border-style: outset;
-}
-
-#playGrid {
-
-}
-
-#EnGrid {
-
-}
-
-.row {
-
 }
 
 .tile {
@@ -101,6 +85,16 @@ h3 {
     border: 1px white;
     border-style: groove;
     border-radius: 5px;
+}
+
+.instructions {
+    opacity: 0;
+    text-align: center;
+    color: rgb(0, 115, 255);
+    font-family: 'Black Ops One', cursive;
+    font-size: 2ch;
+    margin: 0 0 4px 0;
+
 }
 
 #startGame {
@@ -143,7 +137,7 @@ h3 {
     top: 26%;
     left: 30.5%;
     width: 450px;
-    height: 150px;
+    height: 185px;
     box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .3);
     background-color: rgb(248, 239, 211);
     border: 10px outset;
@@ -152,6 +146,10 @@ h3 {
 
 .popupText {
     text-align: center;
+    color:rgb(40, 117, 211);
+    font-family: 'Caveat', cursive;
+    font-size: 25px;
+    margin: 10px 4px;
 }
 
 .buttonDiv {
@@ -162,7 +160,7 @@ h3 {
 
 .playAgain {
     display: inline;
-    font-family: 'Caveat', cursive;
+    font-family: 'Black Ops One', cursive;
     font-size: 3ch;
     color:rgb(0, 115, 255);
     margin: 0 15px;
@@ -175,7 +173,7 @@ h3 {
 
 .notAgain {
     display: inline;
-    font-family: 'Caveat', cursive;
+    font-family: 'Black Ops One', cursive;
     font-size: 3ch;
     color:rgb(0, 115, 255);
     margin: 0 15px;
