@@ -132,6 +132,7 @@ body {
     height: 150px;
     box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .3);
     background-color: rgb(248, 239, 211);
+    padding: 10px;
     border: 10px outset;
     border-radius: 15px;
 }
@@ -146,6 +147,7 @@ body {
     height: 160px;
     box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .3);
     background-color: rgb(248, 239, 211);
+    padding: 10px;
     border: 10px outset;
     border-radius: 15px;
 }
