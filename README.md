@@ -14,9 +14,7 @@ In this game, the user will being playing a modified game of battleship. There w
 
 ## Stretch Game Mechanics:
     
-    Defense Shield: If a player's boat is fired upon, allow them to take their next action to "shield" that boat, effectively increasing its HP
-    
-    Fleet Firepower: If the player (and computer) have above a certain number of boats remaining, each "fire" action deals double damage.
+    Fleet Firepower: If the player (and computer) have all of their boats remaining, each "fire" action deals double damage. IMPLEMENTED
 
     Custom Grid Sizing: Player will be able to customize the size of the battle grids
 

@@ -22,6 +22,7 @@ let playerHitPercent = null;
 let enemyHitPercent = null;
 let computerSearchCount = 0;
 let computerSearchMax = 15;
+let boatMax = 8;
 const defeatWindow = document.querySelector('#defeat');
 const victoryWindow = document.querySelector('#victory');
 
@@ -166,7 +167,7 @@ function selectBoatPosition(row, tile) {
         computerBoatSelector();
     }
     playerBoatsRemaining();
-    if (playerBoatCount == 8) {
+    if (playerBoatCount == boatMax) {
             selectPhase = false
             playerTurn = true
             selectInstructions.style.opacity = '0';
@@ -231,9 +232,13 @@ function playerOffensive(row, tile) {
     } else if (boat.boatPresent == true && boat.sunk == false && boat.sighted == true){
         let hitChance = Math.random()
         if (hitChance <= playerHitPercent) {
-            boat.health -= 1;
+            if (playerBoatCount == boatMax) {
+                boat.health -= 2;
+            } else {
+                boat.health -= 1;
+            }
             console.log(`Enemy boat hit at ${boat.coordinates}!`);
-            if (boat.health == 0) {
+            if (boat.health <= 0) {
                 console.log (`Enemy boat at ${boat.coordinates} has been sunk!`)
                 computerBoatCount -= 1;
                 boatImage.src = 'https://media.tenor.com/ptNG8DQFPD4AAAAj/explotion-explode.gif'
@@ -340,7 +345,11 @@ function hunterKillerLogic() {
         console.log(`The computer is firing on your boat at ${sightedBoat.coordinates}!`)
         let hitChance = Math.random()
         if (hitChance <= enemyHitPercent) {
-            sightedBoat.health -= 1;
+            if (computerBoatCount == boatMax) {
+                sightedBoat.health -= 2;
+            } else {
+                sightedBoat.health -= 1;
+            }
         } else if (hitChance > enemyHitPercent) {
             console.log('The enemy missed!')
         }
