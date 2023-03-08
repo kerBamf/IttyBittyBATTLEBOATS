@@ -40,9 +40,6 @@ function gameReset() {
     playerTurn = false;
     playerBoatCount = 0;
     computerBoatCount = 0;
-    randRowNum = null;
-    randTileNum = null;
-    hitPercent = null;
     computerMode = 'Hunter';
     sightedBoat = null;
     console.log('Game has been reset')
@@ -185,7 +182,6 @@ function highlightPlayerTile(row, tile) {
 
 function restorePlayerTileDefault(row, tile) {
     let boatElement = playRows[row].children[tile]
-    let boatObject = playGridArray[row][tile]
     if (boatElement.style.backgroundColor == "rgb(0, 175, 175)") {
         boatElement.style.backgroundColor = "rgb(0, 255, 255"
     }
@@ -263,7 +259,7 @@ function colorEnTiles (row, tile) {
     let boat = enGridArray[row][tile]
     let boatElement = enRows[row].children[tile]
     let boatImage = boatElement.firstChild
-    if (boat.sighted == true && boat.health == 3) {
+    if (boat.sighted == true && boat.health == 3 && boatImage === null) {
         addEnemyBoatGraphic(row, tile)
     } else if (boat.sighted == true && boat.health == 2) {
         boatElement.style.backgroundColor = 'yellow'
