@@ -129,7 +129,14 @@ function playTileListeners() {
                if (selectPhase == true) {
                     selectBoatPosition(i, j)
                }
-               
+            })
+            tiles[j].addEventListener('mouseenter', function() {
+                if (selectPhase == true) {
+                    highlightPlayerTile(i, j);
+                }
+            })
+            tiles[j].addEventListener('mouseleave', function() {
+                restorePlayerTileDefault(i, j);
             })
         }
     }
@@ -161,7 +168,21 @@ function selectBoatPosition(row, tile) {
     }
 }
 
+function highlightPlayerTile(row, tile) {
+    let boatElement = playRows[row].children[tile]
+    let boatObject = playGridArray[row][tile]
+    if (boatObject.boatPresent == false) {
+        boatElement.style.backgroundColor = "rgb(0, 175, 175)"
+    }
+}
 
+function restorePlayerTileDefault(row, tile) {
+    let boatElement = playRows[row].children[tile]
+    let boatObject = playGridArray[row][tile]
+    if (boatElement.style.backgroundColor == "rgb(0, 175, 175)") {
+        boatElement.style.backgroundColor = "rgb(0, 255, 255"
+    }
+}
 
 // Enemy tile listeners
 function enTileListeners() {
@@ -172,7 +193,14 @@ function enTileListeners() {
                if (playerTurn == true) {
                 playerOffensive(i, j)
                }
-               
+            })
+            tiles[j].addEventListener('mouseenter', function() {
+                if (playerTurn == true) {
+                    highlightEnemyTile(i, j);
+                }
+            })
+            tiles[j].addEventListener('mouseleave', function() {
+                restoreEnemyTileDefault(i, j);  
             })
         }
     }
@@ -216,7 +244,7 @@ function playerOffensive(row, tile) {
         hunterKillerLogic();
     }
 }
-//Enemy tile color changer 
+//Enemy tile color changers 
 
 function colorEnTiles (row, tile) {
     let boat = enGridArray[row][tile]
@@ -230,6 +258,22 @@ function colorEnTiles (row, tile) {
         boatElement.style.backgroundColor = 'orange'
     } else if (boat.sighted == true && boat.health <= 0) {
         boatElement.style.backgroundColor = 'red'
+    }
+}
+
+function highlightEnemyTile(row, tile) {
+    let boatObject = enGridArray[row][tile]
+    let boatElement = enRows[row].children[tile]
+    if (boatObject.sighted == false) {
+        boatElement.style.backgroundColor = "rgb(0, 175, 175";
+    }
+}
+
+function restoreEnemyTileDefault(row, tile) {
+    let boatElement = enRows[row].children[tile]
+    let boatObject = enGridArray[row][tile]
+    if (boatElement.style.backgroundColor == "rgb(0, 175, 175)") {
+        boatElement.style.backgroundColor = "rgb(0, 255, 255"
     }
 }
 

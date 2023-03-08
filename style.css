@@ -40,7 +40,7 @@ span {
 }
 
 body {
-    background:linear-gradient(to bottom, aqua, navy);
+    background:linear-gradient(to bottom, rgb(0, 255, 255), navy);
     margin: 0 0 275px 0;
 }
 
@@ -92,6 +92,10 @@ body {
     border-style: solid; */
     border-radius: 5px;
 }
+
+/* .tile:hover {
+    background-color: red;
+} */
 
 .instructions {
     opacity: 0;
