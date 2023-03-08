@@ -16,6 +16,10 @@ let playerBoatCount = 0;
 let computerBoatCount = 0;
 let computerMode = 'Hunter';
 let sightedBoat = null;
+let randRowNum = null;
+let randTileNum = null;
+let playerHitPercent = null;
+let enemyHitPercent = null;
 const defeatWindow = document.querySelector('#defeat');
 const victoryWindow = document.querySelector('#victory');
 
@@ -36,6 +40,9 @@ function gameReset() {
     playerTurn = false;
     playerBoatCount = 0;
     computerBoatCount = 0;
+    randRowNum = null;
+    randTileNum = null;
+    hitPercent = null;
     computerMode = 'Hunter';
     sightedBoat = null;
     console.log('Game has been reset')
@@ -211,6 +218,7 @@ function enTileListeners() {
 
 //Functions defining enemy tile behavior during player turn
 function playerOffensive(row, tile) {
+    playerHitPercent = .83
     let boat = enGridArray[row][tile];
     let boatElement = enRows[row].children[tile]
     let boatImage = boatElement.firstChild
@@ -223,16 +231,21 @@ function playerOffensive(row, tile) {
         console.log(`Enemy boat sighted at ${boat.coordinates}`)
     
     } else if (boat.boatPresent == true && boat.sunk == false && boat.sighted == true){
-        boat.health -= 1;
-        console.log(`Enemy boat hit at ${boat.coordinates}!`);
-        if (boat.health == 0) {
-            console.log (`Enemy boat at ${boat.coordinates} has been sunk!`)
-            computerBoatCount -= 1;
-            boatImage.src = 'https://media.tenor.com/ptNG8DQFPD4AAAAj/explotion-explode.gif'
-            setTimeout(function () {
-                boatImage.src = './assets/enemySunk.png'
-            }, 1000)
-            boat.sunk = true;
+        let hitChance = Math.random()
+        if (hitChance <= playerHitPercent) {
+            boat.health -= 1;
+            console.log(`Enemy boat hit at ${boat.coordinates}!`);
+            if (boat.health == 0) {
+                console.log (`Enemy boat at ${boat.coordinates} has been sunk!`)
+                computerBoatCount -= 1;
+                boatImage.src = 'https://media.tenor.com/ptNG8DQFPD4AAAAj/explotion-explode.gif'
+                setTimeout(function () {
+                    boatImage.src = './assets/enemySunk.png'
+                }, 1000)
+                boat.sunk = true;
+            }
+        } else if (hitChance > playerHitPercent) {
+            console.log("The player's volley missed!")
         }
     }
     colorEnTiles(row, tile);
@@ -244,8 +257,8 @@ function playerOffensive(row, tile) {
         hunterKillerLogic();
     }
 }
-//Enemy tile color changers 
 
+//Enemy tile color changers 
 function colorEnTiles (row, tile) {
     let boat = enGridArray[row][tile]
     let boatElement = enRows[row].children[tile]
@@ -277,16 +290,6 @@ function restoreEnemyTileDefault(row, tile) {
     }
 }
 
-//Computer Boat Selection Logic
-
-// function selectEnemyBoats() {
-//     while (computerBoatCount < 5) {
-//         computerBoatSelector();
-//         computerBoatCount += 1;
-//         enemyBoatsRemaining();
-//     }
-// }
-
 function computerBoatSelector() {
     let randomRow = enGridArray[randNumGen(0, (enGridArray.length))]
     let randomTile = randomRow[randNumGen(0, (randomRow.length))] 
@@ -302,8 +305,7 @@ function computerBoatSelector() {
 
 //Computer Hunter-Killer Logic
 
-let randRowNum = null;
-let randTileNum = null;
+enemyHitPercent = .75
 function hunterKillerLogic() {
     if (computerMode == 'Hunter' && playerBoatCount > 0) {
         randRowNum = null;
@@ -330,9 +332,9 @@ function hunterKillerLogic() {
     } else if (computerMode == 'Killer' && playerTurn == false && playerBoatCount > 0) {
         console.log(`The computer is firing on your boat at ${sightedBoat.coordinates}!`)
         let hitChance = Math.random()
-        if (hitChance >= .25) {
+        if (hitChance <= enemyHitPercent) {
             sightedBoat.health -= 1;
-        } else if (hitChance < .25) {
+        } else if (hitChance > enemyHitPercent) {
             console.log('The enemy missed!')
         }
         if (sightedBoat.health <= 0) {
