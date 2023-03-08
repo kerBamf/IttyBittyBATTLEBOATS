@@ -20,6 +20,8 @@ let randRowNum = null;
 let randTileNum = null;
 let playerHitPercent = null;
 let enemyHitPercent = null;
+let computerSearchCount = 0;
+let computerSearchMax = 15;
 const defeatWindow = document.querySelector('#defeat');
 const victoryWindow = document.querySelector('#victory');
 
@@ -313,13 +315,22 @@ function hunterKillerLogic() {
         console.log('Hunting');
 
         if (randomTile.tileChecked == true) {
-            hunterKillerLogic()
+            computerSearchCount += 1
+            console.log(`Enemy search count: ${computerSearchCount}`)
+            if (computerSearchCount == computerSearchMax) {
+                computerSearchCount = 0;
+                playerTurn = true;
+            } else {
+                hunterKillerLogic()
+            }
         } else if (randomTile.boatPresent == false && randomTile.tileChecked == false && playerTurn == false) {
+            computerSearchCount = 0
             randomTile.tileChecked = true;
             console.log('Empty Space Eliminated')
             playerTurn = true;
 
         } else if(randomTile.boatPresent == true && playerTurn == false) {
+            computerSearchCount = 0;
             computerMode = 'Killer';
             sightedBoat = randomTile;
             console.log(`The computer found your boat at ${sightedBoat.coordinates}!`)
