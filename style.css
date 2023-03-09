@@ -121,6 +121,21 @@ body {
     background-color: rgb(248, 239, 211);
 }
 
+.popupText {
+    text-align: center;
+    color:rgb(40, 117, 211);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 15px 10px;
+}
+
+.buttonDiv {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
 
 #victory {
     display: none;
@@ -152,19 +167,99 @@ body {
     border-radius: 15px;
 }
 
-.popupText {
-    text-align: center;
-    color:rgb(40, 117, 211);
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 18px;
-    font-weight: 600;
-    margin: 15px 10px;
+#settings {
+    display: block;
+    position: absolute;
+    z-index: 3;
+    top: 26%;
+    left: 32%;
+    width: 500px;
+    height: 500px;
+    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .3);
+    background-color: rgb(248, 239, 211);
+    padding: 10px;
+    border: 10px outset;
+    border-radius: 15px;
 }
 
-.buttonDiv {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+#fleetFirepower {
+    margin: 30px 0 0 0;
+} 
+
+.settingText {
+    display: inline;
+    font-family: 'Black Ops One', cursive;
+    font-size: 3ch;
+    color:rgb(0, 115, 255);
+}
+
+#fireDescription {
+    text-align: left;
+    padding: 0 50px 0 0;
+}
+
+#fireCheckbox {
+    display: inline-block;
+    position: relative;
+    top: 6px;
+    margin: 0 0 0 60px;
+    height: 30px;
+    width: 30px;
+}
+
+#difficulty {
+    padding: 20px;
+}
+
+#difDescription {
+    display: inline-block;
+    text-align: left;
+    height: 130px;
+    width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+
+#settingsTitle {
+    text-align: center;
+    font-family: 'Black Ops One', cursive;
+    font-size: 4ch;
+    color:rgb(0, 115, 255);
+    margin: 0 0 0 0;
+}
+
+.settingButton {
+    display: inline;
+    font-family: 'Black Ops One', cursive;
+    font-size: 3ch;
+    color:rgb(0, 115, 255);
+    margin: 0 15px;
+    text-align: center;
+    border: 5px;
+    border-radius: 5px;
+    border-style: outset;
+    background-color: rgb(248, 239, 211)
+}
+
+#normal {
+    border-color: rgb(0, 115, 255)
+}
+
+#close {
+    position: absolute;
+    bottom: 20px;
+    left: 38%;
+    display: inline;
+    font-family: 'Black Ops One', cursive;
+    font-size: 3ch;
+    color:rgb(0, 115, 255);
+    margin: 0 15px;
+    text-align: center;
+    border: 5px;
+    border-radius: 5px;
+    border-style: outset;
+    background-color: rgb(248, 239, 211)
 }
 
 .playAgain {

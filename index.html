@@ -27,6 +27,23 @@
             <button class="notAgain">Leave Me</button>
         </div>
     </div>
+    <div id="settings">
+        <p id="settingsTitle">Settings</p>
+        <div id="fleetFirepower">
+            <p id="fireText" class="settingText">Fleet Firepower: </p>
+            <input type="checkbox" id="fireCheckbox"></input>
+            <p class="popupText" id="fireDescription">Damage is doubled when the entire fleet is intact.</p>
+        </div>
+
+        <p class="settingText">Difficulty:</p>
+        <div id="difficulty" class="buttonDiv">
+            <button class="settingButton" id="easy">Easy</button>
+            <button class="settingButton"       id="normal">Normal</button>
+            <button class="settingButton" id="hard">Hard</button>
+        </div>
+        <p id="difDescription" class="popupText"></p>
+        <button id="close">Close</button>
+    </div>
     <div id="defeat">
         <p class="popupText">You were defeated by the enemy, but this need not be your last battle...</p>
         <p class="popupText">Would you like to play again?</p>

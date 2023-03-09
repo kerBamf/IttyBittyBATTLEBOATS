@@ -18,11 +18,19 @@ let computerMode = 'Hunter';
 let sightedBoat = null;
 let randRowNum = null;
 let randTileNum = null;
-let playerHitPercent = null;
-let enemyHitPercent = null;
+let playerHitPercent = .80;
+let enemyHitPercent = .75;
 let computerSearchCount = 0;
 let computerSearchMax = 15;
 let boatMax = 8;
+let fleetFirepower = false;
+const difDescription = document.querySelector('#difDescription')
+const fireCheckbox = document.querySelector('#fireCheckbox')
+const settingsMenu = document.querySelector('#settings')
+const closeButton = document.querySelector('#close')
+const easyButton = document.querySelector('#easy')
+const normalButton = document.querySelector('#normal')
+const hardButton = document.querySelector('#hard')
 const defeatWindow = document.querySelector('#defeat');
 const victoryWindow = document.querySelector('#victory');
 
@@ -217,7 +225,6 @@ function enTileListeners() {
 
 //Functions defining enemy tile behavior during player turn
 function playerOffensive(row, tile) {
-    playerHitPercent = .83
     let boat = enGridArray[row][tile];
     let boatElement = enRows[row].children[tile]
     let boatImage = boatElement.firstChild
@@ -232,7 +239,7 @@ function playerOffensive(row, tile) {
     } else if (boat.boatPresent == true && boat.sunk == false && boat.sighted == true){
         let hitChance = Math.random()
         if (hitChance <= playerHitPercent) {
-            if (playerBoatCount == boatMax) {
+            if (playerBoatCount == boatMax && fleetFirepower == true) {
                 boat.health -= 2;
             } else {
                 boat.health -= 1;
@@ -308,7 +315,6 @@ function computerBoatSelector() {
 
 //Computer Hunter-Killer Logic
 
-enemyHitPercent = .75
 function hunterKillerLogic() {
     if (computerMode == 'Hunter' && playerBoatCount > 0) {
         randRowNum = null;
@@ -345,7 +351,7 @@ function hunterKillerLogic() {
         console.log(`The computer is firing on your boat at ${sightedBoat.coordinates}!`)
         let hitChance = Math.random()
         if (hitChance <= enemyHitPercent) {
-            if (computerBoatCount == boatMax) {
+            if (computerBoatCount == boatMax && fleetFirepower == true) {
                 sightedBoat.health -= 2;
             } else {
                 sightedBoat.health -= 1;
@@ -421,6 +427,69 @@ for (let i = 0; i < leaveMeButtons.length; i++) {
         attackInstructions.style.opacity = '1'
     })
 }
+
+//Settings Menu Event Listeners
+
+closeButton.addEventListener('click', function() {
+    settingsMenu.style.display = 'none';
+})
+
+fireCheckbox.addEventListener('click', function() {
+    if (fireCheckbox.checked == true) {
+        fleetFirepower = true;
+    } else { 
+        fleetFirepower = false;
+    }
+    gameReset()
+    console.log(fleetFirepower)
+})
+
+easyButton.addEventListener('mouseenter', function() {
+    difDescription.innerText = "The enemy isn't very thorough when searching your field and isn't as accurate. Your cannoneers rarely miss. This will be a cakewalk";
+})
+easyButton.addEventListener('mouseleave', function() {
+    difDescription.innerText = null;
+})
+easyButton.addEventListener('click', function() {
+    easyButton.style.borderColor = 'rgb(0, 115, 255)';
+    normalButton.style.borderColor = "";
+    hardButton.style.borderColor = "";
+    gameReset()
+    enemyHitPercent = .65;
+    computerSearchMax = 6;
+    playerHitPercent = .90;
+})
+normalButton.addEventListener('mouseenter', function() {
+    difDescription.innerText = "The enemy is thorough when searching for your boats, but your cannoneers still have a slight edge in accuracy. A winnable challenge.";
+})
+normalButton.addEventListener('mouseleave', function() {
+    difDescription.innerText = null;
+})
+normalButton.addEventListener('click', function() {
+    normalButton.style.borderColor = 'rgb(0, 115, 255)';
+    easyButton.style.borderColor = "";
+    hardButton.style.borderColor = "";
+    gameReset()
+    enemyHitPercent = .75;
+    computerSearchMax = 12;
+    playerHitPercent = .83;
+})
+hardButton.addEventListener('mouseenter', function() {
+    difDescription.innerText = "The enemy is ruthlessly efficient at finding your boats and their hardened cannoneers rarely miss. Your cannoneers are less accurate in the face of such a foe. You'll need a lot of luck to win this battle.";
+})
+hardButton.addEventListener('mouseleave', function() {
+    difDescription.innerText = null;
+})
+hardButton.addEventListener('click', function() {
+    hardButton.style.borderColor = 'rgb(0, 115, 255)';
+    easyButton.style.borderColor = "";
+    normalButton.style.borderColor = "";
+    gameReset()
+    enemyHitPercent = .90;
+    computerSearchMax = 25;
+    playerHitPercent = .75;
+})
+
 
 //"Start Game" Logic
 function addStartButtonListener() {
