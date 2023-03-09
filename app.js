@@ -26,11 +26,12 @@ let boatMax = 8;
 let fleetFirepower = false;
 const difDescription = document.querySelector('#difDescription')
 const fireCheckbox = document.querySelector('#fireCheckbox')
-const settingsMenu = document.querySelector('#settings')
+const settingsButton = document.querySelector('#settingsButton')
+let settingsMenu = document.querySelector('#settings')
 const closeButton = document.querySelector('#close')
-const easyButton = document.querySelector('#easy')
-const normalButton = document.querySelector('#normal')
-const hardButton = document.querySelector('#hard')
+let easyButton = document.querySelector('#easy')
+let normalButton = document.querySelector('#normal')
+let hardButton = document.querySelector('#hard')
 const defeatWindow = document.querySelector('#defeat');
 const victoryWindow = document.querySelector('#victory');
 
@@ -38,9 +39,10 @@ const victoryWindow = document.querySelector('#victory');
 function gameReset() {
     let board = document.querySelector('.board');
     board.innerHTML = baseHTML;
-    recreateStartButton()
-    startGameButton = document.querySelector('#startGame')
-    addStartButtonListener()
+    // recreateStartButton()
+    // startGameButton = document.querySelector('#startGame')
+    // addStartButtonListener()
+    startGameButton.style.display = 'block'
     enRows = document.querySelectorAll('.enRow')
     playRows = document.querySelectorAll('.playRow')
     selectInstructions = document.querySelector('#placeBoats')
@@ -82,7 +84,7 @@ function buildEnTileArray() {
         let newRowArray = [];
         for(let j = 0; j < enRows[i].children.length; j++) {
              let newTile = new TileStats()
-             newTile.coordinates = `${i}, ${j}`
+             newTile.coordinates = [i, j]
             newRowArray.push(newTile)
         }
         enGridArray.push(newRowArray)
@@ -445,15 +447,15 @@ fireCheckbox.addEventListener('click', function() {
 })
 
 easyButton.addEventListener('mouseenter', function() {
-    difDescription.innerText = "The enemy isn't very thorough when searching your field and isn't as accurate. Your cannoneers rarely miss. This will be a cakewalk";
+    difDescription.innerText = "The enemy isn't very thorough when searching your field and isn't as accurate. Your cannoneers rarely miss. This will be a cakewalk.";
 })
 easyButton.addEventListener('mouseleave', function() {
     difDescription.innerText = null;
 })
 easyButton.addEventListener('click', function() {
-    easyButton.style.borderColor = 'rgb(0, 115, 255)';
-    normalButton.style.borderColor = "";
-    hardButton.style.borderColor = "";
+    easyButton.classList.add('redText');
+    normalButton.classList.remove('redText')
+    hardButton.classList.remove('redText')
     gameReset()
     enemyHitPercent = .65;
     computerSearchMax = 6;
@@ -466,30 +468,33 @@ normalButton.addEventListener('mouseleave', function() {
     difDescription.innerText = null;
 })
 normalButton.addEventListener('click', function() {
-    normalButton.style.borderColor = 'rgb(0, 115, 255)';
-    easyButton.style.borderColor = "";
-    hardButton.style.borderColor = "";
+    easyButton.classList.remove('redText');
+    normalButton.classList.add('redText');
+    hardButton.classList.remove('redText');
     gameReset()
     enemyHitPercent = .75;
     computerSearchMax = 12;
     playerHitPercent = .83;
 })
 hardButton.addEventListener('mouseenter', function() {
-    difDescription.innerText = "The enemy is ruthlessly efficient at finding your boats and their hardened cannoneers rarely miss. Your cannoneers are less accurate in the face of such a foe. You'll need a lot of luck to win this battle.";
+    difDescription.innerText = "The enemy is ruthlessly efficient at finding your boats and their hardened cannoneers rarely miss. Your cannoneers are less accurate in the face of such a foe. Pray the goddess of luck is with you.";
 })
 hardButton.addEventListener('mouseleave', function() {
     difDescription.innerText = null;
 })
 hardButton.addEventListener('click', function() {
-    hardButton.style.borderColor = 'rgb(0, 115, 255)';
-    easyButton.style.borderColor = "";
-    normalButton.style.borderColor = "";
+    easyButton.classList.remove('redText');
+    normalButton.classList.remove('redText');
+    hardButton.classList.add('redText');
     gameReset()
     enemyHitPercent = .90;
-    computerSearchMax = 25;
+    computerSearchMax = 35;
     playerHitPercent = .75;
 })
 
+settingsButton.addEventListener('click', function() {
+    settingsMenu.style.display = 'block'
+})
 
 //"Start Game" Logic
 function addStartButtonListener() {
@@ -499,18 +504,11 @@ function addStartButtonListener() {
     });
 }
 
-function recreateStartButton() {
-    let newButton = document.createElement('button')
-    newButton.id = 'startGame'
-    newButton.innerText = 'Start'
-    document.querySelector('body').appendChild(newButton)
-}
-
 addStartButtonListener()
 
 function startGame() {
     console.log('Game starting')
-    startGameButton.remove();
+    startGameButton.style.display = 'none';
     buildEnTileArray()
     buildPlayerTileArray()
     playTileListeners()

@@ -19,6 +19,7 @@
     </div>
     <h1>Itty Bitty <span>BATTLE BOATS</span>
     </h1>
+    <button id="startGame">Start</button>
     <div id="victory">
         <p class="popupText">Congratulations! You defeated the enemy fleet!</p>
         <p class="popupText">Would you like to play again?</p>
@@ -29,17 +30,18 @@
     </div>
     <div id="settings">
         <p id="settingsTitle">Settings</p>
+        <p class="popupText" id="warning">WARNING! Changing settings will reset your current game!</p>
         <div id="fleetFirepower">
             <p id="fireText" class="settingText">Fleet Firepower: </p>
             <input type="checkbox" id="fireCheckbox"></input>
-            <p class="popupText" id="fireDescription">Damage is doubled when the entire fleet is intact.</p>
+            <p class="popupText" id="fireDescription">Damage is doubled when the attacker's entire fleet is intact.</p>
         </div>
 
         <p class="settingText">Difficulty:</p>
         <div id="difficulty" class="buttonDiv">
-            <button class="settingButton" id="easy">Easy</button>
-            <button class="settingButton"       id="normal">Normal</button>
-            <button class="settingButton" id="hard">Hard</button>
+            <button class="difButton" id="easy">Easy</button>
+            <button class="difButton redText"     id="normal">Normal</button>
+            <button class="difButton" id="hard">Hard</button>
         </div>
         <p id="difDescription" class="popupText"></p>
         <button id="close">Close</button>
@@ -162,8 +164,7 @@
             </div>
         </div>
     </div>
-    <button id="startGame">Start</button>
-    
+    <button id="settingsButton">Settings</button>
 </body>
 </html>
 

@@ -1,6 +1,3 @@
-#background {
-}
-
 #bgImage{
     position: fixed;
     width: 850px;
@@ -88,14 +85,8 @@ body {
     width: 72px;
     height: 72px;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, .4);
-    /* border: 1px white;
-    border-style: solid; */
     border-radius: 5px;
 }
-
-/* .tile:hover {
-    background-color: red;
-} */
 
 .instructions {
     opacity: 0;
@@ -114,11 +105,27 @@ body {
     display: block;
     text-align: center;
     margin: 30px auto;
+    padding: 15px 40px;
+    border: 5px;
+    border-radius: 5px;
+    border-style: outset;
+    background-color: rgb(248, 239, 211);
+}
+
+#settingsButton {
+    
+    font-family: 'Black Ops One', cursive;
+    font-size: 3ch;
+    color:rgb(0, 115, 255);
+    display: block;
+    text-align: center;
+    margin: 25px 0 0 100px;
     padding: 0 30px;
     border: 5px;
     border-radius: 5px;
     border-style: outset;
     background-color: rgb(248, 239, 211);
+    
 }
 
 .popupText {
@@ -168,7 +175,7 @@ body {
 }
 
 #settings {
-    display: block;
+    display: none;
     position: absolute;
     z-index: 3;
     top: 26%;
@@ -180,6 +187,10 @@ body {
     padding: 10px;
     border: 10px outset;
     border-radius: 15px;
+}
+
+#warning {
+    margin: 0;
 }
 
 #fleetFirepower {
@@ -217,7 +228,7 @@ body {
     height: 130px;
     width: 400px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 0 20px 20px 20px;
 }
 
 
@@ -229,7 +240,7 @@ body {
     margin: 0 0 0 0;
 }
 
-.settingButton {
+.difButton {
     display: inline;
     font-family: 'Black Ops One', cursive;
     font-size: 3ch;
@@ -242,13 +253,13 @@ body {
     background-color: rgb(248, 239, 211)
 }
 
-#normal {
-    border-color: rgb(0, 115, 255)
+.redText {
+    color: red;
 }
 
 #close {
     position: absolute;
-    bottom: 20px;
+    bottom: 10px;
     left: 38%;
     display: inline;
     font-family: 'Black Ops One', cursive;
