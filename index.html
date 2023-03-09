@@ -19,6 +19,7 @@
     </div>
     <h1>Itty Bitty <span>BATTLE BOATS</span>
     </h1>
+    <button id="startGame">Start</button>
     <div id="victory">
         <p class="popupText">Congratulations! You defeated the enemy fleet!</p>
         <p class="popupText">Would you like to play again?</p>
@@ -26,6 +27,24 @@
             <button class="playAgain">Play Again</button>
             <button class="notAgain">Leave Me</button>
         </div>
+    </div>
+    <div id="settings">
+        <p id="settingsTitle">Settings</p>
+        <p class="popupText" id="warning">WARNING! Changing settings will reset your current game!</p>
+        <div id="fleetFirepower">
+            <p id="fireText" class="settingText">Fleet Firepower: </p>
+            <input type="checkbox" id="fireCheckbox"></input>
+            <p class="popupText" id="fireDescription">Damage is doubled when the attacker's entire fleet is intact.</p>
+        </div>
+
+        <p class="settingText">Difficulty:</p>
+        <div id="difficulty" class="buttonDiv">
+            <button class="difButton" id="easy">Easy</button>
+            <button class="difButton redText"     id="normal">Normal</button>
+            <button class="difButton" id="hard">Hard</button>
+        </div>
+        <p id="difDescription" class="popupText"></p>
+        <button id="close">Close</button>
     </div>
     <div id="defeat">
         <p class="popupText">You were defeated by the enemy, but this need not be your last battle...</p>
@@ -134,7 +153,7 @@
                     <div class="tile"></div>
                     <div class="tile"></div>
                 </div>
-                <div class="playRow" id="playRow6">
+                <div class="enRow" id="enRow6">
                     <div class="tile"></div>
                     <div class="tile"></div>
                     <div class="tile"></div>
@@ -145,8 +164,7 @@
             </div>
         </div>
     </div>
-    <button id="startGame">Start</button>
-    
+    <button id="settingsButton">Settings</button>
 </body>
 </html>
 

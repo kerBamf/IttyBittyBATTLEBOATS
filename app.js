@@ -16,6 +16,22 @@ let playerBoatCount = 0;
 let computerBoatCount = 0;
 let computerMode = 'Hunter';
 let sightedBoat = null;
+let randRowNum = null;
+let randTileNum = null;
+let playerHitPercent = .80;
+let enemyHitPercent = .75;
+let computerSearchCount = 0;
+let computerSearchMax = 15;
+let boatMax = 8;
+let fleetFirepower = false;
+const difDescription = document.querySelector('#difDescription')
+const fireCheckbox = document.querySelector('#fireCheckbox')
+const settingsButton = document.querySelector('#settingsButton')
+let settingsMenu = document.querySelector('#settings')
+const closeButton = document.querySelector('#close')
+let easyButton = document.querySelector('#easy')
+let normalButton = document.querySelector('#normal')
+let hardButton = document.querySelector('#hard')
 const defeatWindow = document.querySelector('#defeat');
 const victoryWindow = document.querySelector('#victory');
 
@@ -23,9 +39,10 @@ const victoryWindow = document.querySelector('#victory');
 function gameReset() {
     let board = document.querySelector('.board');
     board.innerHTML = baseHTML;
-    recreateStartButton()
-    startGameButton = document.querySelector('#startGame')
-    addStartButtonListener()
+    // recreateStartButton()
+    // startGameButton = document.querySelector('#startGame')
+    // addStartButtonListener()
+    startGameButton.style.display = 'block'
     enRows = document.querySelectorAll('.enRow')
     playRows = document.querySelectorAll('.playRow')
     selectInstructions = document.querySelector('#placeBoats')
@@ -67,7 +84,7 @@ function buildEnTileArray() {
         let newRowArray = [];
         for(let j = 0; j < enRows[i].children.length; j++) {
              let newTile = new TileStats()
-             newTile.coordinates = `${i}, ${j}`
+             newTile.coordinates = [i, j]
             newRowArray.push(newTile)
         }
         enGridArray.push(newRowArray)
@@ -129,7 +146,14 @@ function playTileListeners() {
                if (selectPhase == true) {
                     selectBoatPosition(i, j)
                }
-               
+            })
+            tiles[j].addEventListener('mouseenter', function() {
+                if (selectPhase == true) {
+                    highlightPlayerTile(i, j);
+                }
+            })
+            tiles[j].addEventListener('mouseleave', function() {
+                restorePlayerTileDefault(i, j);
             })
         }
     }
@@ -153,7 +177,7 @@ function selectBoatPosition(row, tile) {
         computerBoatSelector();
     }
     playerBoatsRemaining();
-    if (playerBoatCount == 8) {
+    if (playerBoatCount == boatMax) {
             selectPhase = false
             playerTurn = true
             selectInstructions.style.opacity = '0';
@@ -161,7 +185,20 @@ function selectBoatPosition(row, tile) {
     }
 }
 
+function highlightPlayerTile(row, tile) {
+    let boatElement = playRows[row].children[tile]
+    let boatObject = playGridArray[row][tile]
+    if (boatObject.boatPresent == false) {
+        boatElement.style.backgroundColor = "rgb(0, 175, 175)"
+    }
+}
 
+function restorePlayerTileDefault(row, tile) {
+    let boatElement = playRows[row].children[tile]
+    if (boatElement.style.backgroundColor == "rgb(0, 175, 175)") {
+        boatElement.style.backgroundColor = "rgb(0, 255, 255"
+    }
+}
 
 // Enemy tile listeners
 function enTileListeners() {
@@ -172,7 +209,14 @@ function enTileListeners() {
                if (playerTurn == true) {
                 playerOffensive(i, j)
                }
-               
+            })
+            tiles[j].addEventListener('mouseenter', function() {
+                if (playerTurn == true) {
+                    highlightEnemyTile(i, j);
+                }
+            })
+            tiles[j].addEventListener('mouseleave', function() {
+                restoreEnemyTileDefault(i, j);  
             })
         }
     }
@@ -195,16 +239,25 @@ function playerOffensive(row, tile) {
         console.log(`Enemy boat sighted at ${boat.coordinates}`)
     
     } else if (boat.boatPresent == true && boat.sunk == false && boat.sighted == true){
-        boat.health -= 1;
-        console.log(`Enemy boat hit at ${boat.coordinates}!`);
-        if (boat.health == 0) {
-            console.log (`Enemy boat at ${boat.coordinates} has been sunk!`)
-            computerBoatCount -= 1;
-            boatImage.src = 'https://media.tenor.com/ptNG8DQFPD4AAAAj/explotion-explode.gif'
-            setTimeout(function () {
-                boatImage.src = './assets/enemySunk.png'
-            }, 1000)
-            boat.sunk = true;
+        let hitChance = Math.random()
+        if (hitChance <= playerHitPercent) {
+            if (playerBoatCount == boatMax && fleetFirepower == true) {
+                boat.health -= 2;
+            } else {
+                boat.health -= 1;
+            }
+            console.log(`Enemy boat hit at ${boat.coordinates}!`);
+            if (boat.health <= 0) {
+                console.log (`Enemy boat at ${boat.coordinates} has been sunk!`)
+                computerBoatCount -= 1;
+                boatImage.src = 'https://media.tenor.com/ptNG8DQFPD4AAAAj/explotion-explode.gif'
+                setTimeout(function () {
+                    boatImage.src = './assets/enemySunk.png'
+                }, 1000)
+                boat.sunk = true;
+            }
+        } else if (hitChance > playerHitPercent) {
+            console.log("The player's volley missed!")
         }
     }
     colorEnTiles(row, tile);
@@ -216,13 +269,13 @@ function playerOffensive(row, tile) {
         hunterKillerLogic();
     }
 }
-//Enemy tile color changer 
 
+//Enemy tile color changers 
 function colorEnTiles (row, tile) {
     let boat = enGridArray[row][tile]
     let boatElement = enRows[row].children[tile]
     let boatImage = boatElement.firstChild
-    if (boat.sighted == true && boat.health == 3) {
+    if (boat.sighted == true && boat.health == 3 && boatImage === null) {
         addEnemyBoatGraphic(row, tile)
     } else if (boat.sighted == true && boat.health == 2) {
         boatElement.style.backgroundColor = 'yellow'
@@ -233,15 +286,21 @@ function colorEnTiles (row, tile) {
     }
 }
 
-//Computer Boat Selection Logic
+function highlightEnemyTile(row, tile) {
+    let boatObject = enGridArray[row][tile]
+    let boatElement = enRows[row].children[tile]
+    if (boatObject.sighted == false) {
+        boatElement.style.backgroundColor = "rgb(0, 175, 175";
+    }
+}
 
-// function selectEnemyBoats() {
-//     while (computerBoatCount < 5) {
-//         computerBoatSelector();
-//         computerBoatCount += 1;
-//         enemyBoatsRemaining();
-//     }
-// }
+function restoreEnemyTileDefault(row, tile) {
+    let boatElement = enRows[row].children[tile]
+    let boatObject = enGridArray[row][tile]
+    if (boatElement.style.backgroundColor == "rgb(0, 175, 175)") {
+        boatElement.style.backgroundColor = "rgb(0, 255, 255"
+    }
+}
 
 function computerBoatSelector() {
     let randomRow = enGridArray[randNumGen(0, (enGridArray.length))]
@@ -258,8 +317,6 @@ function computerBoatSelector() {
 
 //Computer Hunter-Killer Logic
 
-let randRowNum = null;
-let randTileNum = null;
 function hunterKillerLogic() {
     if (computerMode == 'Hunter' && playerBoatCount > 0) {
         randRowNum = null;
@@ -271,13 +328,22 @@ function hunterKillerLogic() {
         console.log('Hunting');
 
         if (randomTile.tileChecked == true) {
-            hunterKillerLogic()
+            computerSearchCount += 1
+            console.log(`Enemy search count: ${computerSearchCount}`)
+            if (computerSearchCount == computerSearchMax) {
+                computerSearchCount = 0;
+                playerTurn = true;
+            } else {
+                hunterKillerLogic()
+            }
         } else if (randomTile.boatPresent == false && randomTile.tileChecked == false && playerTurn == false) {
+            computerSearchCount = 0
             randomTile.tileChecked = true;
             console.log('Empty Space Eliminated')
             playerTurn = true;
 
         } else if(randomTile.boatPresent == true && playerTurn == false) {
+            computerSearchCount = 0;
             computerMode = 'Killer';
             sightedBoat = randomTile;
             console.log(`The computer found your boat at ${sightedBoat.coordinates}!`)
@@ -286,9 +352,13 @@ function hunterKillerLogic() {
     } else if (computerMode == 'Killer' && playerTurn == false && playerBoatCount > 0) {
         console.log(`The computer is firing on your boat at ${sightedBoat.coordinates}!`)
         let hitChance = Math.random()
-        if (hitChance >= .25) {
-            sightedBoat.health -= 1;
-        } else if (hitChance < .25) {
+        if (hitChance <= enemyHitPercent) {
+            if (computerBoatCount == boatMax && fleetFirepower == true) {
+                sightedBoat.health -= 2;
+            } else {
+                sightedBoat.health -= 1;
+            }
+        } else if (hitChance > enemyHitPercent) {
             console.log('The enemy missed!')
         }
         if (sightedBoat.health <= 0) {
@@ -360,6 +430,72 @@ for (let i = 0; i < leaveMeButtons.length; i++) {
     })
 }
 
+//Settings Menu Event Listeners
+
+closeButton.addEventListener('click', function() {
+    settingsMenu.style.display = 'none';
+})
+
+fireCheckbox.addEventListener('click', function() {
+    if (fireCheckbox.checked == true) {
+        fleetFirepower = true;
+    } else { 
+        fleetFirepower = false;
+    }
+    gameReset()
+    console.log(fleetFirepower)
+})
+
+easyButton.addEventListener('mouseenter', function() {
+    difDescription.innerText = "The enemy isn't very thorough when searching your field and isn't as accurate. Your cannoneers rarely miss. This will be a cakewalk.";
+})
+easyButton.addEventListener('mouseleave', function() {
+    difDescription.innerText = null;
+})
+easyButton.addEventListener('click', function() {
+    easyButton.classList.add('redText');
+    normalButton.classList.remove('redText')
+    hardButton.classList.remove('redText')
+    gameReset()
+    enemyHitPercent = .65;
+    computerSearchMax = 6;
+    playerHitPercent = .90;
+})
+normalButton.addEventListener('mouseenter', function() {
+    difDescription.innerText = "The enemy is thorough when searching for your boats, but your cannoneers still have a slight edge in accuracy. A winnable challenge.";
+})
+normalButton.addEventListener('mouseleave', function() {
+    difDescription.innerText = null;
+})
+normalButton.addEventListener('click', function() {
+    easyButton.classList.remove('redText');
+    normalButton.classList.add('redText');
+    hardButton.classList.remove('redText');
+    gameReset()
+    enemyHitPercent = .75;
+    computerSearchMax = 12;
+    playerHitPercent = .83;
+})
+hardButton.addEventListener('mouseenter', function() {
+    difDescription.innerText = "The enemy is ruthlessly efficient at finding your boats and their hardened cannoneers rarely miss. Your cannoneers are less accurate in the face of such a foe. Pray the goddess of luck is with you.";
+})
+hardButton.addEventListener('mouseleave', function() {
+    difDescription.innerText = null;
+})
+hardButton.addEventListener('click', function() {
+    easyButton.classList.remove('redText');
+    normalButton.classList.remove('redText');
+    hardButton.classList.add('redText');
+    gameReset()
+    enemyHitPercent = .90;
+    computerSearchMax = 35;
+    playerHitPercent = .75;
+})
+
+settingsButton.addEventListener('click', function() {
+    settingsMenu.style.display = 'block'
+})
+
 //"Start Game" Logic
 function addStartButtonListener() {
     startGameButton.addEventListener('click', function () {
@@ -368,18 +504,11 @@ function addStartButtonListener() {
     });
 }
 
-function recreateStartButton() {
-    let newButton = document.createElement('button')
-    newButton.id = 'startGame'
-    newButton.innerText = 'Start'
-    document.querySelector('body').appendChild(newButton)
-}
-
 addStartButtonListener()
 
 function startGame() {
     console.log('Game starting')
-    startGameButton.remove();
+    startGameButton.style.display = 'none';
     buildEnTileArray()
     buildPlayerTileArray()
     playTileListeners()

@@ -1,6 +1,3 @@
-#background {
-}
-
 #bgImage{
     position: fixed;
     width: 850px;
@@ -40,7 +37,7 @@ span {
 }
 
 body {
-    background:linear-gradient(to bottom, aqua, navy);
+    background:linear-gradient(to bottom, rgb(0, 255, 255), navy);
     margin: 0 0 275px 0;
 }
 
@@ -88,8 +85,6 @@ body {
     width: 72px;
     height: 72px;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, .4);
-    /* border: 1px white;
-    border-style: solid; */
     border-radius: 5px;
 }
 
@@ -110,40 +105,27 @@ body {
     display: block;
     text-align: center;
     margin: 30px auto;
-    padding: 0 30px;
+    padding: 15px 40px;
     border: 5px;
     border-radius: 5px;
     border-style: outset;
     background-color: rgb(248, 239, 211);
 }
 
-
-#victory {
-    display: none;
-    position: absolute;
-    z-index: 3;
-    top: 26%;
-    left: 30.5%;
-    width: 450px;
-    height: 150px;
-    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .3);
+#settingsButton {
+    
+    font-family: 'Black Ops One', cursive;
+    font-size: 3ch;
+    color:rgb(0, 115, 255);
+    display: block;
+    text-align: center;
+    margin: 25px 0 0 100px;
+    padding: 0 30px;
+    border: 5px;
+    border-radius: 5px;
+    border-style: outset;
     background-color: rgb(248, 239, 211);
-    border: 10px outset;
-    border-radius: 15px;
-}
-
-#defeat {
-    display: none;
-    position: absolute;
-    z-index: 3;
-    top: 26%;
-    left: 30.5%;
-    width: 450px;
-    height: 160px;
-    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .3);
-    background-color: rgb(248, 239, 211);
-    border: 10px outset;
-    border-radius: 15px;
+    
 }
 
 .popupText {
@@ -159,6 +141,136 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: center;
+}
+
+
+#victory {
+    display: none;
+    position: absolute;
+    z-index: 3;
+    top: 26%;
+    left: 30.5%;
+    width: 450px;
+    height: 150px;
+    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .3);
+    background-color: rgb(248, 239, 211);
+    padding: 10px;
+    border: 10px outset;
+    border-radius: 15px;
+}
+
+#defeat {
+    display: none;
+    position: absolute;
+    z-index: 3;
+    top: 26%;
+    left: 30.5%;
+    width: 450px;
+    height: 160px;
+    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .3);
+    background-color: rgb(248, 239, 211);
+    padding: 10px;
+    border: 10px outset;
+    border-radius: 15px;
+}
+
+#settings {
+    display: none;
+    position: absolute;
+    z-index: 3;
+    top: 26%;
+    left: 32%;
+    width: 500px;
+    height: 500px;
+    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .3);
+    background-color: rgb(248, 239, 211);
+    padding: 10px;
+    border: 10px outset;
+    border-radius: 15px;
+}
+
+#warning {
+    margin: 0;
+}
+
+#fleetFirepower {
+    margin: 30px 0 0 0;
+} 
+
+.settingText {
+    display: inline;
+    font-family: 'Black Ops One', cursive;
+    font-size: 3ch;
+    color:rgb(0, 115, 255);
+}
+
+#fireDescription {
+    text-align: left;
+    padding: 0 50px 0 0;
+}
+
+#fireCheckbox {
+    display: inline-block;
+    position: relative;
+    top: 6px;
+    margin: 0 0 0 60px;
+    height: 30px;
+    width: 30px;
+}
+
+#difficulty {
+    padding: 20px;
+}
+
+#difDescription {
+    display: inline-block;
+    text-align: left;
+    height: 130px;
+    width: 400px;
+    margin: 0 auto;
+    padding: 0 20px 20px 20px;
+}
+
+
+#settingsTitle {
+    text-align: center;
+    font-family: 'Black Ops One', cursive;
+    font-size: 4ch;
+    color:rgb(0, 115, 255);
+    margin: 0 0 0 0;
+}
+
+.difButton {
+    display: inline;
+    font-family: 'Black Ops One', cursive;
+    font-size: 3ch;
+    color:rgb(0, 115, 255);
+    margin: 0 15px;
+    text-align: center;
+    border: 5px;
+    border-radius: 5px;
+    border-style: outset;
+    background-color: rgb(248, 239, 211)
+}
+
+.redText {
+    color: red;
+}
+
+#close {
+    position: absolute;
+    bottom: 10px;
+    left: 38%;
+    display: inline;
+    font-family: 'Black Ops One', cursive;
+    font-size: 3ch;
+    color:rgb(0, 115, 255);
+    margin: 0 15px;
+    text-align: center;
+    border: 5px;
+    border-radius: 5px;
+    border-style: outset;
+    background-color: rgb(248, 239, 211)
 }
 
 .playAgain {
