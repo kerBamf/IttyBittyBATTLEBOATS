@@ -1,13 +1,16 @@
 //Global Variables
 const bodySelector = document.querySelector('.board')
 const baseHTML = bodySelector.innerHTML;
+let playGridDiv = document.querySelector('#playGrid')
+let enGridDiv = document.querySelector('#enGrid')
 let selectInstructions = document.querySelector('#placeBoats')
 let attackInstructions = document.querySelector('#findBoats')
-let enRows = document.querySelectorAll('.enRow')
-let playRows = document.querySelectorAll('.playRow')
+let enRows = null
+let playRows = null
 let startGameButton = document.querySelector('#startGame')
 let playerLabel = document.querySelector('#playerLabel')
 let enemyLabel = document.querySelector('#enemyLabel')
+let gridSize = 6;
 let selectPhase = false;
 let playerTurn = false;
 let enGridArray = [];
@@ -24,6 +27,7 @@ let computerSearchCount = 0;
 let computerSearchMax = 15;
 let boatMax = 8;
 let fleetFirepower = false;
+let gridLabelDiv = document.querySelectorAll('.gridAndLabel')
 const difDescription = document.querySelector('#difDescription')
 const fireCheckbox = document.querySelector('#fireCheckbox')
 const settingsButton = document.querySelector('#settingsButton')
@@ -34,6 +38,55 @@ let normalButton = document.querySelector('#normal')
 let hardButton = document.querySelector('#hard')
 const defeatWindow = document.querySelector('#defeat');
 const victoryWindow = document.querySelector('#victory');
+const fiveByFive = document.querySelector('#fiveByFive')
+const sixBySix = document.querySelector('#sixBySix')
+const sevenBySeven = document.querySelector('#sevenBySeven')
+const eightByEight = document.querySelector('#eightByEight')
+
+//Random Number Generator
+function randNumGen(min, max) {
+    return Math.floor(Math.random() * ((max-min) + min))
+}
+
+//Grid HTML Element Builders to enable custom grid sizing
+
+function buildPlayerGridElements() {
+    for (let i = 1; i <= gridSize; i++) {
+        let newRow = document.createElement('div')
+        newRow.setAttribute('id',`playRow${i}`)
+        newRow.classList.add('playRow')
+        newRow.classList.add('row')
+        playGridDiv.appendChild(newRow);
+        for (let j = 1; j <= gridSize; j++) {
+            let newTile = document.createElement('div');
+            newTile.classList.add('tile');
+            newRow.appendChild(newTile);
+        }
+    }
+    playRows = document.querySelectorAll('.playRow')
+}
+function buildEnemyGridElements() {
+    for (let i = 1; i <= gridSize; i++) {
+        let newRow = document.createElement('div')
+        newRow.setAttribute('id',`enRow${i}`)
+        newRow.classList.add('enRow')
+        newRow.classList.add('row')
+        enGridDiv.appendChild(newRow);
+        for (let j = 1; j <= gridSize; j++) {
+            let newTile = document.createElement('div');
+            newTile.classList.add('tile');
+            newRow.appendChild(newTile);
+        }
+    }
+    enRows = document.querySelectorAll('.enRow')
+}
+
+// enRows = document.querySelectorAll('.enRow')
+// playRows = document.querySelectorAll('.playRow')
+
+buildPlayerGridElements();
+buildEnemyGridElements();
+
 
 //Game Reset Function. Listeners need to be reapplied after HTML reset
 function gameReset() {
@@ -43,8 +96,11 @@ function gameReset() {
     // startGameButton = document.querySelector('#startGame')
     // addStartButtonListener()
     startGameButton.style.display = 'block'
-    enRows = document.querySelectorAll('.enRow')
-    playRows = document.querySelectorAll('.playRow')
+    gridLabelDiv = document.querySelectorAll('.gridAndLabel')
+    playGridDiv = document.querySelector('#playGrid')
+    enGridDiv = document.querySelector('#enGrid')
+    buildPlayerGridElements();
+    buildEnemyGridElements();
     selectInstructions = document.querySelector('#placeBoats')
     attackInstructions = document.querySelector('#findBoats')
     playerLabel = document.querySelector('#playerLabel')
@@ -56,12 +112,6 @@ function gameReset() {
     computerMode = 'Hunter';
     sightedBoat = null;
     console.log('Game has been reset')
-}
-
-
-//Random Number Generator
-function randNumGen(min, max) {
-    return Math.floor(Math.random() * ((max-min) + min))
 }
 
 //Building Class for tiles. Each tile will have boat stats, but boat presence will be toggled true or false at the beginning of the game
@@ -241,7 +291,7 @@ function playerOffensive(row, tile) {
     } else if (boat.boatPresent == true && boat.sunk == false && boat.sighted == true){
         let hitChance = Math.random()
         if (hitChance <= playerHitPercent) {
-            if (playerBoatCount == boatMax && fleetFirepower == true) {
+            if (playerBoatCount >= boatMax-1 && fleetFirepower == true) {
                 boat.health -= 2;
             } else {
                 boat.health -= 1;
@@ -353,7 +403,7 @@ function hunterKillerLogic() {
         console.log(`The computer is firing on your boat at ${sightedBoat.coordinates}!`)
         let hitChance = Math.random()
         if (hitChance <= enemyHitPercent) {
-            if (computerBoatCount == boatMax && fleetFirepower == true) {
+            if (computerBoatCount >= boatMax-1 && fleetFirepower == true) {
                 sightedBoat.health -= 2;
             } else {
                 sightedBoat.health -= 1;
@@ -436,6 +486,53 @@ closeButton.addEventListener('click', function() {
     settingsMenu.style.display = 'none';
 })
 
+//Grid Size Button Listeners
+fiveByFive.addEventListener('click', function() {
+    fiveByFive.classList.add('redText');
+    sixBySix.classList.remove('redText');
+    sevenBySeven.classList.remove('redText');
+    eightByEight.classList.remove('redText');
+    gridSize = 5;
+    gameReset();
+    for (let i = 0; i < gridLabelDiv.length; i++) {
+        gridLabelDiv[i].style.minWidth = '516px'
+    }
+})
+sixBySix.addEventListener('click', function() {
+    fiveByFive.classList.remove('redText');
+    sixBySix.classList.add('redText');
+    sevenBySeven.classList.remove('redText');
+    eightByEight.classList.remove('redText');
+    gridSize = 6;
+    gameReset();
+    for (let i = 0; i < gridLabelDiv.length; i++) {
+        gridLabelDiv[i].style.minWidth = '596px'
+    }
+})
+sevenBySeven.addEventListener('click', function() {
+    fiveByFive.classList.remove('redText');
+    sixBySix.classList.remove('redText');
+    sevenBySeven.classList.add('redText');
+    eightByEight.classList.remove('redText');
+    gridSize = 7;
+    gameReset();
+    for (let i = 0; i < gridLabelDiv.length; i++) {
+        gridLabelDiv[i].style.minWidth = '676px'
+    }
+})
+eightByEight.addEventListener('click', function() {
+    fiveByFive.classList.remove('redText');
+    sixBySix.classList.remove('redText');
+    sevenBySeven.classList.remove('redText');
+    eightByEight.classList.add('redText');
+    gridSize = 8;
+    gameReset();
+    for (let i = 0; i < gridLabelDiv.length; i++) {
+        gridLabelDiv[i].style.minWidth = '756px'
+    }
+})
+
+//Firepower button listener
 fireCheckbox.addEventListener('click', function() {
     if (fireCheckbox.checked == true) {
         fleetFirepower = true;
@@ -446,6 +543,7 @@ fireCheckbox.addEventListener('click', function() {
     console.log(fleetFirepower)
 })
 
+//Difficulty Button Listeners
 easyButton.addEventListener('mouseenter', function() {
     difDescription.innerText = "The enemy isn't very thorough when searching your field and isn't as accurate. Your cannoneers rarely miss. This will be a cakewalk.";
 })
@@ -488,8 +586,8 @@ hardButton.addEventListener('click', function() {
     hardButton.classList.add('redText');
     gameReset()
     enemyHitPercent = .90;
-    computerSearchMax = 35;
-    playerHitPercent = .75;
+    computerSearchMax = 50;
+    playerHitPercent = .68;
 })
 
 settingsButton.addEventListener('click', function() {
