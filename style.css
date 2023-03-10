@@ -46,12 +46,15 @@ body {
 .board {
     display: flex;
     flex-direction: row;
-    justify-content:center;
-    margin: 0 auto;
+    justify-content: center;
 }
 
 .gridAndLabel {
-    min-width: 589px;
+    display: Flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 450px;
+    margin: 25px; 
 }
 
 .label {
@@ -60,14 +63,15 @@ body {
     text-align: center;
     color: rgb(0, 115, 255);
     background-color: rgb(248, 239, 211);
+    width: 256px;
     margin: 0 130px 0 130px;
     padding: 10px 0 10px 0;
     border-radius: 12px;
 }
 
 .grid {
-    display: inline-block;
-    margin: 10px 50px 0 50px;
+    display: block;
+    margin: 10px 40px 0 ;
     background-color: rgb(248, 239, 211);
     padding: 15px;
     border-radius: 10px;
@@ -75,15 +79,22 @@ body {
     border-style: outset;
 }
 
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 6px 0;
+}
 
 .tile {
     display: inline-block;
     background-color: aqua;
     background-image: url('./assets/wave.png');
     background-size: cover;
-    margin: 0px;
     width: 72px;
+    min-width: 72px;
     height: 72px;
+    margin: 0 4px;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, .4);
     border-radius: 5px;
 }
@@ -99,12 +110,14 @@ body {
 }
 
 #startGame {
+    position: relative;
+    top: 60px;
     font-family: 'Black Ops One', cursive;
     font-size: 3ch;
     color:rgb(0, 115, 255);
     display: block;
     text-align: center;
-    margin: 30px auto;
+    margin: -60px auto 0 auto;
     padding: 15px 40px;
     border: 5px;
     border-radius: 5px;
@@ -194,7 +207,7 @@ body {
 }
 
 #fleetFirepower {
-    margin: 30px 0 0 0;
+    margin: 18px 0 0 0;
 } 
 
 .settingText {
@@ -238,6 +251,19 @@ body {
     font-size: 4ch;
     color:rgb(0, 115, 255);
     margin: 0 0 0 0;
+}
+
+.gridButton {
+    display: inline;
+    font-family: 'Black Ops One', cursive;
+    font-size: 3ch;
+    color:rgb(0, 115, 255);
+    margin: 15px 15px 15px 0;
+    text-align: center;
+    border: 5px;
+    border-radius: 5px;
+    border-style: outset;
+    background-color: rgb(248, 239, 211)
 }
 
 .difButton {

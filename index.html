@@ -31,12 +31,18 @@
     <div id="settings">
         <p id="settingsTitle">Settings</p>
         <p class="popupText" id="warning">WARNING! Changing settings will reset your current game!</p>
+        <p class="settingText">Grid Size:</p>
+        <div id="gridSize" class="buttonDiv">
+            <button class="gridButton" id="fiveByFive">5x5</button>
+            <button class="gridButton redText"     id="sixBySix">6x6</button>
+            <button class="gridButton" id="sevenBySeven">7x7</button>
+            <button class="gridButton" id="eightByEight">8x8</button>
+        </div>
         <div id="fleetFirepower">
             <p id="fireText" class="settingText">Fleet Firepower: </p>
             <input type="checkbox" id="fireCheckbox"></input>
-            <p class="popupText" id="fireDescription">Damage is doubled when the attacker's entire fleet is intact.</p>
+            <p class="popupText" id="fireDescription">Attacker's damage is doubled until two of its boats are sunk.</p>
         </div>
-
         <p class="settingText">Difficulty:</p>
         <div id="difficulty" class="buttonDiv">
             <button class="difButton" id="easy">Easy</button>
@@ -59,7 +65,7 @@
             <h3 class="label" id="playerLabel">Player Boats: 0</h3>
             <div class='grid' id="playGrid">
                 <p id="placeBoats" class="instructions">Click to Place Your 8 Battle Boats!</p>
-                <div class="playRow" id="playRow1">
+                <!-- <div class="playRow" id="playRow1">
                     <div class="tile"></div>
                     <div class="tile"></div>
                     <div class="tile"></div>
@@ -106,14 +112,14 @@
                     <div class="tile"></div>
                     <div class="tile"></div>
                     <div class="tile"></div>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="gridAndLabel">
             <h3 class="label" id="enemyLabel">Enemy Boats: 0</h3>
-            <div class='grid' id="EnGrid">
+            <div class='grid' id="enGrid">
                 <p id="findBoats" class="instructions">Click to Find and Attack Enemies!</p>
-                <div class="enRow" id="EnRow1">
+                <!-- <div class="enRow" id="EnRow1">
                     <div class="tile"></div>
                     <div class="tile"></div>
                     <div class="tile"></div>
@@ -160,7 +166,7 @@
                     <div class="tile"></div>
                     <div class="tile"></div>
                     <div class="tile"></div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
