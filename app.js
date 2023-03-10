@@ -32,6 +32,7 @@ const difDescription = document.querySelector('#difDescription')
 const fireCheckbox = document.querySelector('#fireCheckbox')
 const settingsButton = document.querySelector('#settingsButton')
 let settingsMenu = document.querySelector('#settings')
+let settingsMenuOpen = false;
 const closeButton = document.querySelector('#close')
 let easyButton = document.querySelector('#easy')
 let normalButton = document.querySelector('#normal')
@@ -114,7 +115,7 @@ function gameReset() {
     console.log('Game has been reset')
 }
 
-//Building Class for tiles. Each tile will have boat stats, but boat presence will be toggled true or false at the beginning of the game
+//Building Class for tiles.
 
 class TileStats {
     constructor() {
@@ -127,7 +128,8 @@ class TileStats {
     }
 }
 
-//Building Boat Arrays. Can be latered modified for stretch feature of custome map size.
+//Building Boat Arrays - Iteration based on HTML elements, so arrays will always match their associated elements
+
 function buildEnTileArray() {
     enGridArray = [];
     for(let i = 0; i < enRows.length; i++) {
@@ -188,27 +190,28 @@ function addPlayerBoatGraphic(row, tile) {
 
 //Player Tile Listeners
 
-function playTileListeners() {
-    for(let i = 0; i < playRows.length; i++) {
-        let tiles = playRows[i].children;
-        for (let j = 0; j < tiles.length; j++) {
-            tiles[j].addEventListener('click', function() {
-               if (selectPhase == true) {
-                    selectBoatPosition(i, j)
-               }
-            })
-            tiles[j].addEventListener('mouseenter', function() {
-                if (selectPhase == true) {
-                    highlightPlayerTile(i, j);
+function playTileListeners() {  
+        for(let i = 0; i < playRows.length; i++) {
+            let tiles = playRows[i].children;
+            for (let j = 0; j < tiles.length; j++) {
+                tiles[j].addEventListener('click', function() {
+                if (selectPhase == true && settingsMenuOpen == false) {
+                        selectBoatPosition(i, j)
                 }
-            })
-            tiles[j].addEventListener('mouseleave', function() {
-                restorePlayerTileDefault(i, j);
-            })
+                })
+                tiles[j].addEventListener('mouseenter', function() {
+                    if (selectPhase == true && settingsMenuOpen == false) {
+                        highlightPlayerTile(i, j);
+                    }
+                })
+                tiles[j].addEventListener('mouseleave', function() {
+                    restorePlayerTileDefault(i, j);
+                })
+            }
         }
+        console.log('Added Player Listeners')
     }
-    console.log('Added Player Listeners')
-}
+
 
 
 //Player Tile Logic for selecting player boat positions. Also calls computerBoatSelector for simultaneous update
@@ -252,26 +255,27 @@ function restorePlayerTileDefault(row, tile) {
 
 // Enemy tile listeners
 function enTileListeners() {
-    for(let i = 0; i < enRows.length; i++) {
-        let tiles = enRows[i].children;
-        for (let j = 0; j < tiles.length; j++) {
-            tiles[j].addEventListener('click', function() {
-               if (playerTurn == true) {
-                playerOffensive(i, j)
-               }
-            })
-            tiles[j].addEventListener('mouseenter', function() {
-                if (playerTurn == true) {
-                    highlightEnemyTile(i, j);
+        for(let i = 0; i < enRows.length; i++) {
+            let tiles = enRows[i].children;
+            for (let j = 0; j < tiles.length; j++) {
+                tiles[j].addEventListener('click', function() {
+                if (playerTurn == true && settingsMenuOpen == false) {
+                    playerOffensive(i, j)
                 }
-            })
-            tiles[j].addEventListener('mouseleave', function() {
-                restoreEnemyTileDefault(i, j);  
-            })
+                })
+                tiles[j].addEventListener('mouseenter', function() {
+                    if (playerTurn == true && settingsMenuOpen == false) {
+                        highlightEnemyTile(i, j);
+                    }
+                })
+                tiles[j].addEventListener('mouseleave', function() {
+                    restoreEnemyTileDefault(i, j);  
+                })
+            }
         }
+        console.log('Added Enemy Listeners')
     }
-    console.log('Added Enemy Listeners')
-}
+
 
 
 
@@ -484,6 +488,7 @@ for (let i = 0; i < leaveMeButtons.length; i++) {
 
 closeButton.addEventListener('click', function() {
     settingsMenu.style.display = 'none';
+    settingsMenuOpen = false;
 })
 
 //Grid Size Button Listeners
@@ -591,6 +596,7 @@ hardButton.addEventListener('click', function() {
 })
 
 settingsButton.addEventListener('click', function() {
+    settingsMenuOpen = true;
     settingsMenu.style.display = 'block'
 })
 
