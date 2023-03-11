@@ -112,7 +112,6 @@ function gameReset() {
     computerBoatCount = 0;
     computerMode = 'Hunter';
     sightedBoat = null;
-    console.log('Game has been reset')
 }
 
 //Building Class for tiles.
@@ -209,7 +208,6 @@ function playTileListeners() {
                 })
             }
         }
-        console.log('Added Player Listeners')
     }
 
 
@@ -220,12 +218,9 @@ function selectBoatPosition(row, tile) {
     let boatObject = playGridArray[row][tile]
         boatElement = playRows[row].children[tile]
         boatImage = boatElement.firstChild
-    if (boatObject.boatPresent == true) {
-        console.log("You've already put a boat there!")
-    } else if (boatObject.boatPresent == false) {
+    if (boatObject.boatPresent == false) {
         boatObject.boatPresent = true;
         playerBoatCount = playerBoatCount + 1;
-        console.log(playerBoatCount);
         addPlayerBoatGraphic(row, tile);
         computerBoatSelector();
     }
@@ -273,7 +268,6 @@ function enTileListeners() {
                 })
             }
         }
-        console.log('Added Enemy Listeners')
     }
 
 
@@ -284,13 +278,8 @@ function playerOffensive(row, tile) {
     let boat = enGridArray[row][tile];
     let boatElement = enRows[row].children[tile]
     let boatImage = boatElement.firstChild
-    if (boat.boatPresent == false) {
-        console.log('Miss')
-    }  else if (boat.boatPresent == true && boat.sunk == true) {
-        console.log("You've already sunk that boat!") 
-    } else if (boat.boatPresent == true && boat.sighted == false) {
+    if (boat.boatPresent == true && boat.sighted == false) {
         boat.sighted = true;
-        console.log(`Enemy boat sighted at ${boat.coordinates}`)
     
     } else if (boat.boatPresent == true && boat.sunk == false && boat.sighted == true){
         let hitChance = Math.random()
@@ -300,9 +289,7 @@ function playerOffensive(row, tile) {
             } else {
                 boat.health -= 1;
             }
-            console.log(`Enemy boat hit at ${boat.coordinates}!`);
             if (boat.health <= 0) {
-                console.log (`Enemy boat at ${boat.coordinates} has been sunk!`)
                 computerBoatCount -= 1;
                 boatImage.src = 'https://media.tenor.com/ptNG8DQFPD4AAAAj/explotion-explode.gif'
                 setTimeout(function () {
@@ -311,6 +298,7 @@ function playerOffensive(row, tile) {
                 boat.sunk = true;
             }
         } else if (hitChance > playerHitPercent) {
+            //Standin for future in-game alert
             console.log("The player's volley missed!")
         }
     }
@@ -379,11 +367,9 @@ function hunterKillerLogic() {
         let randomRow = playGridArray[randRowNum];
         randTileNum = randNumGen(0, (randomRow.length))
         let randomTile = randomRow[randTileNum]
-        console.log('Hunting');
 
         if (randomTile.tileChecked == true) {
             computerSearchCount += 1
-            console.log(`Enemy search count: ${computerSearchCount}`)
             if (computerSearchCount == computerSearchMax) {
                 computerSearchCount = 0;
                 playerTurn = true;
@@ -393,18 +379,15 @@ function hunterKillerLogic() {
         } else if (randomTile.boatPresent == false && randomTile.tileChecked == false && playerTurn == false) {
             computerSearchCount = 0
             randomTile.tileChecked = true;
-            console.log('Empty Space Eliminated')
             playerTurn = true;
 
         } else if(randomTile.boatPresent == true && playerTurn == false) {
             computerSearchCount = 0;
             computerMode = 'Killer';
             sightedBoat = randomTile;
-            console.log(`The computer found your boat at ${sightedBoat.coordinates}!`)
             playerTurn = true;
         }
     } else if (computerMode == 'Killer' && playerTurn == false && playerBoatCount > 0) {
-        console.log(`The computer is firing on your boat at ${sightedBoat.coordinates}!`)
         let hitChance = Math.random()
         if (hitChance <= enemyHitPercent) {
             if (computerBoatCount >= boatMax-1 && fleetFirepower == true) {
@@ -412,11 +395,9 @@ function hunterKillerLogic() {
             } else {
                 sightedBoat.health -= 1;
             }
-        } else if (hitChance > enemyHitPercent) {
-            console.log('The enemy missed!')
         }
+
         if (sightedBoat.health <= 0) {
-            console.log(`The computer sank your boat at ${sightedBoat.coordinates}!`)
             playerBoatCount -= 1;
             sightedBoat.tileChecked = true;
             sightedBoat = null;
@@ -545,7 +526,6 @@ fireCheckbox.addEventListener('click', function() {
         fleetFirepower = false;
     }
     gameReset()
-    console.log(fleetFirepower)
 })
 
 //Difficulty Button Listeners
@@ -611,7 +591,6 @@ function addStartButtonListener() {
 addStartButtonListener()
 
 function startGame() {
-    console.log('Game starting')
     startGameButton.style.display = 'none';
     buildEnTileArray()
     buildPlayerTileArray()
