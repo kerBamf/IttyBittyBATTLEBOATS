@@ -32,6 +32,7 @@ const difDescription = document.querySelector('#difDescription')
 const fireCheckbox = document.querySelector('#fireCheckbox')
 const settingsButton = document.querySelector('#settingsButton')
 let settingsMenu = document.querySelector('#settings')
+let settingsMenuOpen = false;
 const closeButton = document.querySelector('#close')
 let easyButton = document.querySelector('#easy')
 let normalButton = document.querySelector('#normal')
@@ -111,10 +112,9 @@ function gameReset() {
     computerBoatCount = 0;
     computerMode = 'Hunter';
     sightedBoat = null;
-    console.log('Game has been reset')
 }
 
-//Building Class for tiles. Each tile will have boat stats, but boat presence will be toggled true or false at the beginning of the game
+//Building Class for tiles.
 
 class TileStats {
     constructor() {
@@ -127,7 +127,8 @@ class TileStats {
     }
 }
 
-//Building Boat Arrays. Can be latered modified for stretch feature of custome map size.
+//Building Boat Arrays - Iteration based on HTML elements, so arrays will always match their associated elements
+
 function buildEnTileArray() {
     enGridArray = [];
     for(let i = 0; i < enRows.length; i++) {
@@ -188,27 +189,27 @@ function addPlayerBoatGraphic(row, tile) {
 
 //Player Tile Listeners
 
-function playTileListeners() {
-    for(let i = 0; i < playRows.length; i++) {
-        let tiles = playRows[i].children;
-        for (let j = 0; j < tiles.length; j++) {
-            tiles[j].addEventListener('click', function() {
-               if (selectPhase == true) {
-                    selectBoatPosition(i, j)
-               }
-            })
-            tiles[j].addEventListener('mouseenter', function() {
-                if (selectPhase == true) {
-                    highlightPlayerTile(i, j);
+function playTileListeners() {  
+        for(let i = 0; i < playRows.length; i++) {
+            let tiles = playRows[i].children;
+            for (let j = 0; j < tiles.length; j++) {
+                tiles[j].addEventListener('click', function() {
+                if (selectPhase == true && settingsMenuOpen == false) {
+                        selectBoatPosition(i, j)
                 }
-            })
-            tiles[j].addEventListener('mouseleave', function() {
-                restorePlayerTileDefault(i, j);
-            })
+                })
+                tiles[j].addEventListener('mouseenter', function() {
+                    if (selectPhase == true && settingsMenuOpen == false) {
+                        highlightPlayerTile(i, j);
+                    }
+                })
+                tiles[j].addEventListener('mouseleave', function() {
+                    restorePlayerTileDefault(i, j);
+                })
+            }
         }
     }
-    console.log('Added Player Listeners')
-}
+
 
 
 //Player Tile Logic for selecting player boat positions. Also calls computerBoatSelector for simultaneous update
@@ -217,12 +218,9 @@ function selectBoatPosition(row, tile) {
     let boatObject = playGridArray[row][tile]
         boatElement = playRows[row].children[tile]
         boatImage = boatElement.firstChild
-    if (boatObject.boatPresent == true) {
-        console.log("You've already put a boat there!")
-    } else if (boatObject.boatPresent == false) {
+    if (boatObject.boatPresent == false) {
         boatObject.boatPresent = true;
         playerBoatCount = playerBoatCount + 1;
-        console.log(playerBoatCount);
         addPlayerBoatGraphic(row, tile);
         computerBoatSelector();
     }
@@ -252,26 +250,26 @@ function restorePlayerTileDefault(row, tile) {
 
 // Enemy tile listeners
 function enTileListeners() {
-    for(let i = 0; i < enRows.length; i++) {
-        let tiles = enRows[i].children;
-        for (let j = 0; j < tiles.length; j++) {
-            tiles[j].addEventListener('click', function() {
-               if (playerTurn == true) {
-                playerOffensive(i, j)
-               }
-            })
-            tiles[j].addEventListener('mouseenter', function() {
-                if (playerTurn == true) {
-                    highlightEnemyTile(i, j);
+        for(let i = 0; i < enRows.length; i++) {
+            let tiles = enRows[i].children;
+            for (let j = 0; j < tiles.length; j++) {
+                tiles[j].addEventListener('click', function() {
+                if (playerTurn == true && settingsMenuOpen == false) {
+                    playerOffensive(i, j)
                 }
-            })
-            tiles[j].addEventListener('mouseleave', function() {
-                restoreEnemyTileDefault(i, j);  
-            })
+                })
+                tiles[j].addEventListener('mouseenter', function() {
+                    if (playerTurn == true && settingsMenuOpen == false) {
+                        highlightEnemyTile(i, j);
+                    }
+                })
+                tiles[j].addEventListener('mouseleave', function() {
+                    restoreEnemyTileDefault(i, j);  
+                })
+            }
         }
     }
-    console.log('Added Enemy Listeners')
-}
+
 
 
 
@@ -280,13 +278,8 @@ function playerOffensive(row, tile) {
     let boat = enGridArray[row][tile];
     let boatElement = enRows[row].children[tile]
     let boatImage = boatElement.firstChild
-    if (boat.boatPresent == false) {
-        console.log('Miss')
-    }  else if (boat.boatPresent == true && boat.sunk == true) {
-        console.log("You've already sunk that boat!") 
-    } else if (boat.boatPresent == true && boat.sighted == false) {
+    if (boat.boatPresent == true && boat.sighted == false) {
         boat.sighted = true;
-        console.log(`Enemy boat sighted at ${boat.coordinates}`)
     
     } else if (boat.boatPresent == true && boat.sunk == false && boat.sighted == true){
         let hitChance = Math.random()
@@ -296,9 +289,7 @@ function playerOffensive(row, tile) {
             } else {
                 boat.health -= 1;
             }
-            console.log(`Enemy boat hit at ${boat.coordinates}!`);
             if (boat.health <= 0) {
-                console.log (`Enemy boat at ${boat.coordinates} has been sunk!`)
                 computerBoatCount -= 1;
                 boatImage.src = 'https://media.tenor.com/ptNG8DQFPD4AAAAj/explotion-explode.gif'
                 setTimeout(function () {
@@ -307,6 +298,7 @@ function playerOffensive(row, tile) {
                 boat.sunk = true;
             }
         } else if (hitChance > playerHitPercent) {
+            //Standin for future in-game alert
             console.log("The player's volley missed!")
         }
     }
@@ -375,11 +367,9 @@ function hunterKillerLogic() {
         let randomRow = playGridArray[randRowNum];
         randTileNum = randNumGen(0, (randomRow.length))
         let randomTile = randomRow[randTileNum]
-        console.log('Hunting');
 
         if (randomTile.tileChecked == true) {
             computerSearchCount += 1
-            console.log(`Enemy search count: ${computerSearchCount}`)
             if (computerSearchCount == computerSearchMax) {
                 computerSearchCount = 0;
                 playerTurn = true;
@@ -389,18 +379,15 @@ function hunterKillerLogic() {
         } else if (randomTile.boatPresent == false && randomTile.tileChecked == false && playerTurn == false) {
             computerSearchCount = 0
             randomTile.tileChecked = true;
-            console.log('Empty Space Eliminated')
             playerTurn = true;
 
         } else if(randomTile.boatPresent == true && playerTurn == false) {
             computerSearchCount = 0;
             computerMode = 'Killer';
             sightedBoat = randomTile;
-            console.log(`The computer found your boat at ${sightedBoat.coordinates}!`)
             playerTurn = true;
         }
     } else if (computerMode == 'Killer' && playerTurn == false && playerBoatCount > 0) {
-        console.log(`The computer is firing on your boat at ${sightedBoat.coordinates}!`)
         let hitChance = Math.random()
         if (hitChance <= enemyHitPercent) {
             if (computerBoatCount >= boatMax-1 && fleetFirepower == true) {
@@ -408,11 +395,9 @@ function hunterKillerLogic() {
             } else {
                 sightedBoat.health -= 1;
             }
-        } else if (hitChance > enemyHitPercent) {
-            console.log('The enemy missed!')
         }
+
         if (sightedBoat.health <= 0) {
-            console.log(`The computer sank your boat at ${sightedBoat.coordinates}!`)
             playerBoatCount -= 1;
             sightedBoat.tileChecked = true;
             sightedBoat = null;
@@ -484,6 +469,7 @@ for (let i = 0; i < leaveMeButtons.length; i++) {
 
 closeButton.addEventListener('click', function() {
     settingsMenu.style.display = 'none';
+    settingsMenuOpen = false;
 })
 
 //Grid Size Button Listeners
@@ -540,12 +526,11 @@ fireCheckbox.addEventListener('click', function() {
         fleetFirepower = false;
     }
     gameReset()
-    console.log(fleetFirepower)
 })
 
 //Difficulty Button Listeners
 easyButton.addEventListener('mouseenter', function() {
-    difDescription.innerText = "The enemy isn't very thorough when searching your field and isn't as accurate. Your cannoneers rarely miss. This will be a cakewalk.";
+    difDescription.innerText = "The enemy isn't as thorough when searching your field and isn't as accurate. Your cannoneers rarely miss. This will be a cakewalk.";
 })
 easyButton.addEventListener('mouseleave', function() {
     difDescription.innerText = null;
@@ -555,9 +540,9 @@ easyButton.addEventListener('click', function() {
     normalButton.classList.remove('redText')
     hardButton.classList.remove('redText')
     gameReset()
-    enemyHitPercent = .65;
+    enemyHitPercent = .5;
     computerSearchMax = 6;
-    playerHitPercent = .90;
+    playerHitPercent = .95;
 })
 normalButton.addEventListener('mouseenter', function() {
     difDescription.innerText = "The enemy is thorough when searching for your boats, but your cannoneers still have a slight edge in accuracy. A winnable challenge.";
@@ -591,6 +576,7 @@ hardButton.addEventListener('click', function() {
 })
 
 settingsButton.addEventListener('click', function() {
+    settingsMenuOpen = true;
     settingsMenu.style.display = 'block'
 })
 
@@ -605,7 +591,6 @@ function addStartButtonListener() {
 addStartButtonListener()
 
 function startGame() {
-    console.log('Game starting')
     startGameButton.style.display = 'none';
     buildEnTileArray()
     buildPlayerTileArray()
