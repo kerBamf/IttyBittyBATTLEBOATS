@@ -530,7 +530,7 @@ fireCheckbox.addEventListener('click', function() {
 
 //Difficulty Button Listeners
 easyButton.addEventListener('mouseenter', function() {
-    difDescription.innerText = "The enemy isn't very thorough when searching your field and isn't as accurate. Your cannoneers rarely miss. This will be a cakewalk.";
+    difDescription.innerText = "The enemy isn't as thorough when searching your field and isn't as accurate. Your cannoneers rarely miss. This will be a cakewalk.";
 })
 easyButton.addEventListener('mouseleave', function() {
     difDescription.innerText = null;
@@ -540,9 +540,9 @@ easyButton.addEventListener('click', function() {
     normalButton.classList.remove('redText')
     hardButton.classList.remove('redText')
     gameReset()
-    enemyHitPercent = .65;
+    enemyHitPercent = .5;
     computerSearchMax = 6;
-    playerHitPercent = .90;
+    playerHitPercent = .95;
 })
 normalButton.addEventListener('mouseenter', function() {
     difDescription.innerText = "The enemy is thorough when searching for your boats, but your cannoneers still have a slight edge in accuracy. A winnable challenge.";
