@@ -2,23 +2,41 @@ ITTY BITTY BATTLE BOATS!!!
 
 ## User Story
 
-In this game, the user will being playing a modified game of battleship. There will be two grids, side-by-side, a player grid and an enemy grid. At the beginning of the game, the user will choose a set number of tiles to place their battle boats. The computer will do the same thing. When play begins, whoever gets to go first will be chosen at random. Both the computer and the player will have one 'action' per turn, either "sighting" or "firing." The player "sights" by clicking on a blank tile on the enemy grid. If there is no boat on that tile, the tile will remain unmarked. This is adding a memory aspect to the game, though this could be changed based on how gameplay feels. If a player clicks on a tile occupied by a boat, the boat will be "sighted," with the tile changing color (or some other effect) as an indicator. On their next turn, the player can choose to attempt to "sight" another enemy boat or "fire" on an enemy boat by clicking on an occupied tile. A boat must be "fired" upon until its HP runs out (value could be changed if the game takes too long.) Once either all of the computer's boats or all of the player's boats are sunk, the game is over. Some text will appear on the screen proclaiming the winner, and a button will appear asking if the user would like to play again.
+In Itty Bitty BATTLE BOATS, the player is playing a spin on the game Battleship. To play, players press the "Start" button, and are prompted to click on their own grid to select where to place their boats. Upon clicking, a little boat image is placed on the selected tile. Once their 8 boats are placed, the player is prompted to click on the enemy grid to search for and attack enemy boats. When the player clicks on a tile with an enemy boat on it, the enemy boat is "Sighted," an enemy boat image appears on the tile, and clicking on that tile again will deal damage to the enemy boat. Each boat has 3 health; after 3 hits, the boat will explode and the image is replaced by a cat in a life-preserver. Once all of the player or computer boats are sunk, a popup appears indicating player victory or defeat, and the player will have the choice of playing again or leaving the game in its current state. If the player selects "Leave Me," the page will need to be refreshed or they will need to change the settings before playing again
 
-## User-experience stretch features:
+## Current Stretch-Features:
 
-    Scoreboard for victories/losses
+    In-Game Reset: Rather than needing to refresh the page to play again, there are built-in reset mechanics, allowing for smoother gameplay transitions.
 
-    When first loading the game, a timed 'splash page' will flash the name of the game before revealing the full UI
+    Graphics: I made the cat and wave images myself, and added them to the gameplay, rather than simply changing tile colors as indicators.
 
-    When 'sighting,' add a fadeout effect to the tile the player clicks on
+    Fleet Firepower: Added a feature where the attacker (player or computer) deals double-damage until two of their boats are sunk.
 
-## Stretch Game Mechanics:
+    Difficulty: Added modifiers to the player and computer attack mechanics, adjusting "Accuracy" of attacks, adding more random chance to the game
+
+    Custom Grid Sizing: Players can change the size of the grid
+
+    Settings Menu: Fleet firepower, difficulty, and grid-size can be selected via a settings menu. The settings menu disables event listeners while open, preventing the continuation of gameplay behind the menu itself. If any of the settings are changed, the game automatically resets both to ensure there are no errors and to keep the player from "gaming" the system in terms of difficulty.
+
+
+## Future Stretch Features:
     
-    Fleet Firepower: If the player (and computer) have all of their boats remaining, each "fire" action deals double damage. IMPLEMENTED
+    Scoreboard: Will show player victories and losses until the page is refreshed or the user changes any of the settings
 
-    Custom Grid Sizing: Player will be able to customize the size of the battle grids
+    Custom Boat Count: The user will be able to select the number of boats in play
 
-    Custom boat numbers: Player will be able to choose the number of boats
+    Mobile formatting: The game is currently unplayable on mobile devices due to CSS; dynamic styiling will be added to address that issue
+
+    Intro animation: Show a simple animation when the page is first loaded
+
+    New "Leave Me" graphic: Will add an image of a sunset with one of the cat-boats should the player choose "Leave Me" at the end of a game.
+
+## Dificulties:
+    
+    Styling: Getting CSS to behave the way I wanted was one of the biggest difficulties. I discovered a bug in CSS in relation to border behavior in the DOM.
+    Also, I noticed the CSS behaved differently when the grids were dynamically built in JS compared to when they were hard-coded in HTML, even when all of their class and id tags in CSS were identical.
+
+    Listeners: Getting grid HTML elements to associate properly with JS variables and objects was the biggest hurdle in getting the core mechanics to work. Once that was finished being built, the rest of the mechanics came easily.
 
 
 ## Pseudocode
