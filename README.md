@@ -6,37 +6,38 @@ In Itty Bitty BATTLE BOATS, the player is playing a spin on the game Battleship.
 
 ## Current Stretch-Features
 
-    In-Game Reset: Rather than needing to refresh the page to play again, there are built-in reset mechanics, allowing for smoother gameplay transitions.
+In-Game Reset: Rather than needing to refresh the page to play again, there are built-in reset mechanics, allowing for smoother gameplay transitions.
 
-    Graphics: I made the cat and wave images myself, and added them to the gameplay, rather than simply changing tile colors as indicators.
+Graphics: I made the cat and wave images myself, and added them to the gameplay, rather than simply changing tile colors as indicators.
 
-    Fleet Firepower: Added a feature where the attacker (player or computer) deals double-damage until two of their boats are sunk.
+Fleet Firepower: Added a feature where the attacker (player or computer) deals double-damage until two of their boats are sunk.
 
-    Difficulty: Added modifiers to the player and computer attack mechanics, adjusting "Accuracy" of attacks, adding more random chance to the game
+ Difficulty: Added modifiers to the player and computer attack mechanics, adjusting "Accuracy" of attacks, adding more random chance to the game
 
-    Custom Grid Sizing: Players can change the size of the grid
+Custom Grid Sizing: Players can change the size of the grid
 
-    Settings Menu: Fleet firepower, difficulty, and grid-size can be selected via a settings menu. The settings menu disables event listeners while open, preventing the continuation of gameplay behind the menu itself. If any of the settings are changed, the game automatically resets both to ensure there are no errors and to keep the player from "gaming" the system in terms of difficulty.
+Settings Menu: Fleet firepower, difficulty, and grid-size can be selected via a settings menu. The settings menu disables event listeners while open, preventing the continuation of gameplay behind the menu itself. If any of the settings are changed, the game automatically resets both to ensure there are no errors and to keep the player from "gaming" the system in terms of difficulty.
 
 
 ## Future Stretch Features
     
-    Scoreboard: Will show player victories and losses until the page is refreshed or the user changes any of the settings
+Scoreboard: Will show player victories and losses until the page is refreshed or the user changes any of the settings
 
-    Custom Boat Count: The user will be able to select the number of boats in play
+Custom Boat Count: The user will be able to select the number of boats in play
 
-    Mobile formatting: The game is currently unplayable on mobile devices due to CSS; dynamic styiling will be added to address that issue
+Mobile formatting: The game is currently unplayable on mobile devices due to CSS; dynamic styiling will be added to address that issue
 
-    Intro animation: Show a simple animation when the page is first loaded
+ Intro animation: Show a simple animation when the page is first loaded
 
-    New "Leave Me" graphic: Will add an image of a sunset with one of the cat-boats should the player choose "Leave Me" at the end of a game.
+New "Leave Me" graphic: Will add an image of a sunset with one of the cat-boats should the player choose "Leave Me" at the end of a game.
 
 ## Dificulties
     
-    Styling: Getting CSS to behave the way I wanted was one of the biggest difficulties. I discovered a bug in CSS in relation to border behavior in the DOM.
-    Also, I noticed the CSS behaved differently when the grids were dynamically built in JS compared to when they were hard-coded in HTML, even when all of their class and id tags in CSS were identical.
+Styling: Getting CSS to behave the way I wanted was one of the biggest difficulties. I discovered a bug in CSS in relation to border behavior in the DOM.
 
-    Listeners: Getting grid HTML elements to associate properly with JS variables and objects was the biggest hurdle in getting the core mechanics to work. Once that was finished being built, the rest of the mechanics came easily.
+Also, I noticed the CSS behaved differently when the grids were dynamically built in JS compared to when they were hard-coded in HTML, even when all of their class and id tags in CSS were identical.
+
+Listeners: Getting grid HTML elements to associate properly with JS variables and objects was the biggest hurdle in getting the core mechanics to work. Once that was finished being built, the rest of the mechanics came easily.
 
 
 ## Pseudocode
@@ -62,16 +63,20 @@ Play/EnemyTileListeners {
         if (playerTurn == true) {
             playerOffensive();
         }
-    }
+    })
 }
 
 
 playerOffensive() {
-    Function defining how enemy tile objects are affected during player action. Finishes by changing 'game-state' turn variable to computer turn.
+    
+Function defining how enemy tile objects are affected during player action. Finishes by changing 'game-state' turn variable to computer turn.
+
 }
 
 computerHunterKillerLogic() {
-    Function defining computer logic, based on Hunter/Killer game-state toggle. In 'hunter' mode, the computer will check a random tile object (using previously defined player tile object array). If the tile object does not have a boat (set earlier by player selection), a "the computer missed" indicator will be displayed, a 'tile-checked' property will be applied in the object, and the turn will end. If the computer selects a tile it has already checked, this function will call itself again (hopefully this won't be game-breaking recursion). If a boat is present, the computer 'game-state' will switch to 'Killer' mode. On each subsequent turn the computer will 'fire' on that boat until it is sunk. Once sunk, the 'tile-checked' property will applied, and the 'game-state' toggle will switch back to 'hunter' mode.
+
+Function defining computer logic, based on Hunter/Killer game-state toggle. In 'hunter' mode, the computer will check a random tile object (using previously defined player tile object array). If the tile object does not have a boat (set earlier by player selection), a "the computer missed" indicator will be displayed, a 'tile-checked' property will be applied in the object, and the turn will end. If the computer selects a tile it has already checked, this function will call itself again (hopefully this won't be game-breaking recursion). If a boat is present, the computer 'game-state' will switch to 'Killer' mode. On each subsequent turn the computer will 'fire' on that boat until it is sunk. Once sunk, the 'tile-checked' property will applied, and the 'game-state' toggle will switch back to 'hunter' mode.
+
 }
 
 More function declarations to follow applying graphics based on game-state variable toggles and object properties. Functions will change variables as needed to properly reflect changes based on play.
